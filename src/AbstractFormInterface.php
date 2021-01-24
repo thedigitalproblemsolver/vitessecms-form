@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Form\Interfaces;
+namespace VitesseCms\Form;
 
 use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\Interfaces\InjectableInterface;
