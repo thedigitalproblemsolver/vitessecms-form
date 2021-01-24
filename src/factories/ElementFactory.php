@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Form\Factories;
 
+use Phalcon\Validation\Validator\PresenceOf;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
@@ -21,9 +22,21 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Validation\Validator\File as FileValidator;
+use VitesseCms\Language\Helpers\LanguageHelper;
+use VitesseCms\Language\Services\LanguageService;
 
 class ElementFactory
 {
+    /**
+     * @var LanguageService
+     */
+    protected $language;
+
+    public function __construct(LanguageService $languageService)
+    {
+        $this->language = $languageService;
+    }
+
     public function submitButton(string $label): ElementInterface
     {
         return new Submit($label, [
@@ -275,11 +288,25 @@ class ElementFactory
     public function parseDefaults(Element $element, string $label, string $template = ''): void
     {
         ElementHelper::setDefaults($element, $label);
-        ElementHelper::setRequired($element);
+        $this->setRequired($element);
         ElementHelper::setValue($element);
 
         if (!empty($template)) :
             $element = ElementUiUtil::setTemplate($element, $template);
+        endif;
+    }
+
+    public function setRequired(ElementInterface $element): void
+    {
+        if ($element->getAttribute('required')) :
+            $element->addValidators([
+                new PresenceOf([
+                    'message' => $this->language->get(
+                        'FORM_REQUIRED_MESSAGE',
+                        [strtolower($element->getLabel())]
+                    ),
+                ]),
+            ]);
         endif;
     }
 }
