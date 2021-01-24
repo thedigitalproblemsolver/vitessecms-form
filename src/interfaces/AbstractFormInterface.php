@@ -103,8 +103,7 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function getCsrf(): string;
 
-    //TODO refactoring: $Di kan ook statisch aangeroepen worden, dus is niet nodig
-    public function validate(AbstractController $di): bool;
+    public function validate(): bool;
 
     public function getColumns(string $type, $columnType = 'col'): string;
 

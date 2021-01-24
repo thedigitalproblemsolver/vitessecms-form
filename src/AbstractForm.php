@@ -480,16 +480,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this->security->getToken();
     }
 
-    //TODO refactoring: $Di kan ook statisch aangeroepen worden, dus is niet nodig
-    public function validate(AbstractController $di): bool
+    public function validate(): bool
     {
-        if (!$this->isValid($di->request->getPost())) {
+        if (!$this->isValid($this->request->getPost())) {
             $messages = $this->getMessages();
 
             foreach ($messages as $message) {
-                $di->flash->error($message);
+                $this->flash->setError($message);
             }
-            $di->redirect();
 
             return false;
         }
