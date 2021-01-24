@@ -24,45 +24,41 @@ use Phalcon\Validation\Validator\File as FileValidator;
 
 class ElementFactory
 {
-    public static function button(string $type, string $label, string $name = '', array $attributes = []): ElementInterface
+    public static function submitButton(string $label): ElementInterface
     {
-        switch ($type) :
-            case 'submit':
-                $disabled = isset($attributes['disabled']) ? 'disabled' : '';
-                $useRecaptcha = $attributes['useRecaptcha'] ?? false;
+        return new Submit($label, [
+            'inputClass' => 'btn btn-success btn-block',
+            'template' => 'button',
+            'buttonType' => 'submit'
+        ]);
+    }
 
-                return new Submit($label, [
-                    'inputClass' => 'btn btn-success btn-block',
-                    'template' => 'button',
-                    'buttonType' => 'submit',
-                    'disabled' => $disabled,
-                    'useRecaptcha' => $useRecaptcha
-                ]);
-                break;
-            case 'reset':
-                return new Submit($label, [
-                    'inputClass' => 'btn btn-outline-danger btn-block',
-                    'template' => 'button',
-                    'buttonType' => 'reset'
-                ]);
-                break;
-            case 'empty':
-                return new Submit($label, [
-                    'inputClass' => 'btn btn-outline-danger btn-block btn-form-emtpy',
-                    'template' => 'button',
-                    'buttonType' => 'reset',
-                ]);
-                break;
-            case 'button':
-            default:
-                return (new Submit($label, [
-                    'inputClass' => 'btn btn-outline-info btn-block',
-                    'template' => 'button',
-                    'buttonType' => 'button',
-                    'elementId' => $name,
-                ]));
-                break;
-        endswitch;
+    public static function emptyButton(string $label): ElementInterface
+    {
+        return new Submit($label, [
+            'inputClass' => 'btn btn-outline-danger btn-block btn-form-emtpy',
+            'template' => 'button',
+            'buttonType' => 'reset',
+        ]);
+    }
+
+    public static function resetButton(string $label): ElementInterface
+    {
+        new Submit($label, [
+            'inputClass' => 'btn btn-outline-danger btn-block',
+            'template' => 'button',
+            'buttonType' => 'reset'
+        ]);
+    }
+
+    public static function button(string $label, string $name = ''): ElementInterface
+    {
+        return (new Submit($label, [
+            'inputClass' => 'btn btn-outline-info btn-block',
+            'template' => 'button',
+            'buttonType' => 'button',
+            'elementId' => $name,
+        ]));
     }
 
     public static function checkbox(string $label, string $name, array $attributes = []): Check

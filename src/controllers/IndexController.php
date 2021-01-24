@@ -60,13 +60,13 @@ class IndexController extends AbstractController implements RepositoriesInterfac
                             $this->session->set('blockSubmittedId', $this->request->getPost('block'));
 
                             if ($blockFormBuilder->hasSystemThankyouByShortCode($this->configuration->getLanguageShort())) :
-                                $this->flash->success($blockFormBuilder->getSystemThankyou());
+                                $this->flash->setSucces($blockFormBuilder->getSystemThankyou());
                             else :
-                                $this->flash->success('');
+                                $this->flash->setSucces('');
                             endif;
                         else :
                             foreach ($form->getMessages() as $message) :
-                                $this->flash->error($message->getMessage());
+                                $this->flash->setError($message->getMessage());
                             endforeach;
                         endif;
                     endif;
@@ -75,7 +75,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
         endif;
 
         if ($hasErrors) :
-            $this->flash->_('FORM_NOT_SAVED', 'error');
+            $this->flash->setError('FORM_NOT_SAVED');
         endif;
 
         $this->redirect();
@@ -84,10 +84,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
     protected function parseSubmittedFiles(Submission $submission): Submission
     {
         if ($this->request->hasFiles() === true) :
-            DirectoryUtil::exists(
-                $this->configuration->getUploadDir() . 'uploads/',
-                true
-            );
+            DirectoryUtil::exists($this->configuration->getUploadDir() . 'uploads/', true);
 
             foreach ($this->request->getUploadedFiles() as $file) :
                 if (!empty($file->getName())) :
@@ -106,11 +103,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
                             $submission->addFieldname($key);
                         endif;
                     else :
-                        $this->flash->_(
-                            'CORE_FILE_UPLOAD_FAILED',
-                            'error',
-                            [$file->getName()]
-                        );
+                        $this->flash->setError('CORE_FILE_UPLOAD_FAILED', [$file->getName()]);
                     endif;
                 endif;
             endforeach;
@@ -119,6 +112,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
         return $submission;
     }
 
+    //TODO move to communication package and listener
     protected function parseNewsletters(BlockFormBuilder $blockFormBuilder): void
     {
         $newsletters = $blockFormBuilder->getNewsletters();

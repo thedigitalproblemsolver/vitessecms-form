@@ -8,6 +8,7 @@ use VitesseCms\Form\Helpers\AddElementHelper;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Helpers\ElementUiHelper;
 use VitesseCms\Form\Helpers\FormElementHelper;
+use VitesseCms\Form\Interfaces\AbstractFormInterface;
 use VitesseCms\Form\Models\Attribute;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Language\Repositories\LanguageRepository;
@@ -69,13 +70,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
     }
 
-    /** @deprecated  */
+    /** @deprecated */
     public function _(
         string $type,
         string $label = null,
         string $name = null,
         array $attributes = []
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         $attributes['id'] = $this->filter->sanitize($name, Filter::FILTER_ALPHANUM);
         if (ElementHelper::$form === null) :
             ElementHelper::$form = $this;
@@ -89,13 +91,13 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                 $this->add(ElementFactory::select($label, $name, $attributes));
                 break;
             case 'button';
-                $this->add(ElementFactory::button('button', $label, $name));
+                $this->add(ElementFactory::button($label, $name));
                 break;
             case 'checkbox':
                 $this->add(ElementFactory::checkbox($label, $name, $attributes));
                 break;
             case 'empty';
-                $this->add(ElementFactory::button('empty', $label));
+                $this->add(ElementFactory::emptyButton($label));
                 break;
             case 'file':
                 $this->add(ElementFactory::file($label, $name, $attributes));
@@ -119,10 +121,10 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                 $this->add(ElementFactory::password($label, $name, $attributes));
                 break;
             case 'reset';
-                $this->add(ElementFactory::button('reset', $label));
+                $this->add(ElementFactory::resetButton($label));
                 break;
             case 'submit';
-                $this->add(ElementFactory::button('submit', $label, '', $attributes));
+                $this->add(ElementFactory::submitButton($label, '', $attributes));
                 break;
             case 'tel':
                 $this->add(ElementFactory::tel($label, $name, $attributes));
@@ -154,21 +156,21 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addSubmitButton(string $label): AbstractFormInterface
     {
-        $this->add(ElementFactory::button('submit', $label));
+        $this->add(ElementFactory::submitButton($label));
 
         return $this;
     }
 
     public function addEmptyButton(string $label): AbstractFormInterface
     {
-        $this->add(ElementFactory::button('empty', $label));
+        $this->add(ElementFactory::emptyButton($label));
 
         return $this;
     }
 
     public function addButton(string $label, string $name): AbstractFormInterface
     {
-        $this->add(ElementFactory::button('button', $label, $name));
+        $this->add(ElementFactory::button($label, $name));
 
         return $this;
     }
@@ -185,7 +187,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         ?Attributes $attributes = null
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         if ($attributes === null) :
             $attributes = new Attributes();
         endif;
@@ -196,7 +199,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface {
+    public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
         $this->add(ElementFactory::text($label, $name, (array)$attributes));
 
         return $this;
@@ -206,7 +210,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         ?Attributes $attributes = null
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         $this->add(ElementFactory::url($label, $name, (array)$attributes));
 
         return $this;
@@ -216,7 +221,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         ?Attributes $attributes = null
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         if ($attributes === null) :
             $attributes = new Attributes();
         endif;
@@ -230,7 +236,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         ?Attributes $attributes = null
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         $this->add(ElementFactory::email($label, $name, (array)$attributes));
 
         return $this;
@@ -240,7 +247,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         ?Attributes $attributes = null
-    ): AbstractFormInterface {
+    ): AbstractFormInterface
+    {
         $this->add(ElementFactory::password($label, $name, (array)$attributes));
 
         return $this;
@@ -257,8 +265,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $label,
         string $name,
         Attributes $attributes
-    ): AbstractFormInterface {
-        if($attributes->getInputClass() === AssetsEnum::SELECT2) :
+    ): AbstractFormInterface
+    {
+        if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
             $this->assets->load(AssetsEnum::SELECT2);
         endif;
         $this->add(ElementFactory::dropdown($label, $name, $attributes));
@@ -311,7 +320,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addDate(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface {
+    public function addDate(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
         $this->add(ElementFactory::date($label, $name, $attributes));
 
         return $this;
@@ -333,7 +343,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         string $formName = null,
         bool $noAjax = false,
         bool $newWindow = false
-    ): string {
+    ): string
+    {
         $extra = [];
         $request = new Request();
 
@@ -342,16 +353,16 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
 
         if (substr_count($action, 'http') === 0) :
-            $action = $this->view->getVar('BASE_URI').$action;
+            $action = $this->view->getVar('BASE_URI') . $action;
         endif;
         $this->addCsrf();
 
         if ($this->ajaxFunction !== null) :
-            $extra[] = 'data-ajaxFunction="'.$this->ajaxFunction.'"';
+            $extra[] = 'data-ajaxFunction="' . $this->ajaxFunction . '"';
         endif;
 
         if ($formName) :
-            $extra[] = 'name="'.$formName.'"';
+            $extra[] = 'name="' . $formName . '"';
         endif;
 
         if ($newWindow) :
@@ -367,7 +378,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
 
         if ($this->formClass) :
-            $extra[] = 'class="'.$this->formClass.'"';
+            $extra[] = 'class="' . $this->formClass . '"';
         endif;
 
         $formElements = [];
@@ -390,7 +401,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                     $formElement['inputColumns'] = $this->getColumns(
                             'label',
                             'offset'
-                        ).' '.$this->getColumns('input');
+                        ) . ' ' . $this->getColumns('input');
                     $formElement['input'] = $this->elementUiHelper->renderElement($element, $this);
                     break;
                 case Hidden::class :
@@ -409,9 +420,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                         && $this->setting->has('SHOP_PAGE_AGREEDTERMS')
                     ) :
                         $element->setLabel('<a 
-                            href="page:'.$this->setting->get('SHOP_PAGE_AGREEDTERMS').'"
+                            href="page:' . $this->setting->get('SHOP_PAGE_AGREEDTERMS') . '"
                             class="openmodal"
-                             >'.$element->getLabel().'<a/>'
+                             >' . $element->getLabel() . '<a/>'
                         );
                     endif;
 
@@ -464,12 +475,12 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
         $form = $this->view->renderTemplate(
             $this->formTemplate,
-            $this->configuration->getCoreTemplateDir().'views/partials/form/',
+            $this->configuration->getCoreTemplateDir() . 'views/partials/form/',
             [
                 'formElements' => $formElements,
-                'formId'       => uniqid('form_', false),
-                'formAction'   => $action,
-                'formExtra'    => implode(' ', $extra),
+                'formId' => uniqid('form_', false),
+                'formAction' => $action,
+                'formExtra' => implode(' ', $extra),
                 'formLabelAsPlaceholder',
                 $this->getLabelAsPlaceholder(),
             ]
@@ -512,7 +523,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
         $colClasses = [];
         foreach ($cols as $screen => $size) :
-            $colClasses[] = $columnType.'-'.$screen.'-'.$size;
+            $colClasses[] = $columnType . '-' . $screen . '-' . $size;
         endforeach;
 
         return str_replace(
@@ -522,7 +533,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         );
     }
 
-    public function setColumn(Int $column, string $type, array $screens): AbstractFormInterface
+    public function setColumn(int $column, string $type, array $screens): AbstractFormInterface
     {
         foreach ($screens as $size => $name) :
             switch ($type) :
