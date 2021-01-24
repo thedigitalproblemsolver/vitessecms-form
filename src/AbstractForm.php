@@ -94,9 +94,6 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             case 'checkbox':
                 $this->add(ElementFactory::checkbox($label, $name, $attributes));
                 break;
-            case 'csrf':
-                $this->add((new Hidden("csrf"))->setAttribute('template', 'csrf'));
-                break;
             case 'empty';
                 $this->add(ElementFactory::button('empty', $label));
                 break;
@@ -144,6 +141,13 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                 $this->add(ElementFactory::url($label, $name, $attributes));
                 break;
         endswitch;
+
+        return $this;
+    }
+
+    public function addCsrf(): AbstractFormInterface
+    {
+        $this->add((new Hidden('csrf'))->setAttribute('template', 'csrf'));
 
         return $this;
     }
@@ -340,7 +344,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         if (substr_count($action, 'http') === 0) :
             $action = $this->view->getVar('BASE_URI').$action;
         endif;
-        $this->_('csrf', 'csrf', 'csrf');
+        $this->addCsrf();
 
         if ($this->ajaxFunction !== null) :
             $extra[] = 'data-ajaxFunction="'.$this->ajaxFunction.'"';
