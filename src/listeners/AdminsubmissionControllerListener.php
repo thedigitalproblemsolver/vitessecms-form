@@ -9,14 +9,7 @@ use Phalcon\Events\Event;
 
 class AdminsubmissionControllerListener
 {
-    public function beforeEdit(
-        Event $event,
-        AdminsubmissionController $controller,
-        Submission $submission
-    ): void {
-        $controller->addRenderParam(
-            'adminEditForm',
-            SubmissionHelper::getHtmlAdminTable($submission, true)
-        );
+    public function beforeEdit(Event $event, AdminsubmissionController $controller, Submission $submission): void {
+        $controller->addRenderParam('adminEditForm', SubmissionHelper::getHtmlAdminTable($submission, true));
     }
 }

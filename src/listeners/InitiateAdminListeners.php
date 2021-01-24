@@ -8,9 +8,6 @@ class InitiateAdminListeners
 {
     public static function setListeners(Manager $eventsManager): void
     {
-        $eventsManager->attach(
-            'AdminsubmissionController',
-            new AdminsubmissionControllerListener()
-        );
+        $eventsManager->attach('AdminsubmissionController', new AdminsubmissionControllerListener());
     }
 }

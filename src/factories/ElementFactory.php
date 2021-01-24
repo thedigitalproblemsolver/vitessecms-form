@@ -332,10 +332,6 @@ class ElementFactory
         ElementHelper::setRequired($element);
         ElementHelper::setValue($element);
 
-        /*if(!empty($element->getAttributes()['defaultValue'])) :
-            var_dump($element->getAttributes()['defaultValue']);
-            die();
-        endif;*/
         if (!empty($template)) :
             $element = ElementUiUtil::setTemplate($element, $template);
         endif;

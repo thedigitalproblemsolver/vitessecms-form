@@ -70,7 +70,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
     }
 
-    /** @deprecated */
+    /**
+     * @deprecated use add-ers instead of this to generic function
+     */
     public function _(
         string $type,
         string $label = null,

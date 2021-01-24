@@ -1,19 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace VitesseCms\Form\Helpers;
 
 use VitesseCms\Form\AbstractForm;
 use Phalcon\Forms\Form;
 
-/**
- * Class FormHelper
- */
 class FormHelper
 {
-    /**
-     * @param Form $form
-     *
-     * @return string
-     */
+    //TODO move to mustache
     public static function buildTableFromElements(Form $form): string
     {
         $html = '<table>';

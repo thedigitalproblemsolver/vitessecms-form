@@ -7,11 +7,7 @@ use Phalcon\Forms\ElementInterface;
 
 class FormUtil
 {
-    public static function renderInputTemplate(
-        ElementInterface $element,
-        ?string $short,
-        AbstractForm $form
-    ): string {
+    public static function renderInputTemplate(ElementInterface $element, ?string $short, AbstractForm $form): string {
         if ($element->getAttribute('template') === 'csrf') :
             return (string)$element;
         endif;

@@ -27,12 +27,7 @@ interface AbstractFormInterface extends InjectableInterface
      * @deprecated use adders instead of this to generic function
      *
      */
-    public function _(
-        string $type,
-        string $label = null,
-        string $name = null,
-        array $attributes = []
-    ): AbstractFormInterface;
+    public function _(string $type, string $label = null, string $name = null, array $attributes = []): AbstractFormInterface;
 
     public function addSubmitButton(string $label): AbstractFormInterface;
 
@@ -42,41 +37,17 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function addToggle(string $label, string $name): AbstractFormInterface;
 
-    public function addNumber(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addNumber(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function addText(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function addUrl(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addUrl(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function addEditor(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addEditor(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function addEmail(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addEmail(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function addPassword(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface;
+    public function addPassword(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
     public function addHtml(string $html): AbstractFormInterface;
 
