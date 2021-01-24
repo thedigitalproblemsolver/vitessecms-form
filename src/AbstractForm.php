@@ -502,7 +502,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $messages = $this->getMessages();
 
             foreach ($messages as $message) {
-                $this->flash->setError($message);
+                $this->flash->setError((string)$message);
             }
 
             return false;

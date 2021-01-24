@@ -303,7 +303,7 @@ class ElementFactory
                 new PresenceOf([
                     'message' => $this->language->get(
                         'FORM_REQUIRED_MESSAGE',
-                        [strtolower($element->getLabel())]
+                        ['"'.$element->getLabel().'"']
                     ),
                 ]),
             ]);
