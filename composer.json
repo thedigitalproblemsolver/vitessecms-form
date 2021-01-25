@@ -18,7 +18,7 @@
     }
   },
   "require": {
-    "vitessecms/filemanager": "~0.0.1",
+    "vitessecms/filemanager": "~0.0.2",
     "vitessecms/language": "~0.0.1"
   }
 }
