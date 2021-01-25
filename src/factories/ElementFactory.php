@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Form\Factories;
 
+use Phalcon\Validation\Validator\PresenceOf;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
@@ -21,10 +22,22 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Validation\Validator\File as FileValidator;
+use VitesseCms\Language\Helpers\LanguageHelper;
+use VitesseCms\Language\Services\LanguageService;
 
 class ElementFactory
 {
-    public static function submitButton(string $label): ElementInterface
+    /**
+     * @var LanguageService
+     */
+    protected $language;
+
+    public function __construct(LanguageService $languageService)
+    {
+        $this->language = $languageService;
+    }
+
+    public function submitButton(string $label): ElementInterface
     {
         return new Submit($label, [
             'inputClass' => 'btn btn-success btn-block',
@@ -33,7 +46,7 @@ class ElementFactory
         ]);
     }
 
-    public static function emptyButton(string $label): ElementInterface
+    public function emptyButton(string $label): ElementInterface
     {
         return new Submit($label, [
             'inputClass' => 'btn btn-outline-danger btn-block btn-form-emtpy',
@@ -42,7 +55,7 @@ class ElementFactory
         ]);
     }
 
-    public static function resetButton(string $label): ElementInterface
+    public function resetButton(string $label): ElementInterface
     {
         new Submit($label, [
             'inputClass' => 'btn btn-outline-danger btn-block',
@@ -51,20 +64,20 @@ class ElementFactory
         ]);
     }
 
-    public static function button(string $label, string $name = ''): ElementInterface
+    public function button(string $label, string $name = ''): ElementInterface
     {
-        return (new Submit($label, [
+        return new Submit($label, [
             'inputClass' => 'btn btn-outline-info btn-block',
             'template' => 'button',
             'buttonType' => 'button',
             'elementId' => $name,
-        ]));
+        ]);
     }
 
-    public static function checkbox(string $label, string $name, array $attributes = []): Check
+    public function checkbox(string $label, string $name, array $attributes = []): Check
     {
         $element = new Check($name, $attributes);
-        self::parseDefaults($element, $label, 'checkbox');
+        $this->parseDefaults($element, $label, 'checkbox');
 
         if ($element->getDefault() === '') :
             $element->setDefault(true);
@@ -73,23 +86,15 @@ class ElementFactory
         return $element;
     }
 
-    public static function email(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Email
+    public function email(string $label, string $name, array $attributes = []): Email
     {
         $element = new Email($name, $attributes);
-        self::parseDefaults($element, $label, 'email');
+        $this->parseDefaults($element, $label, 'email');
 
         return $element;
     }
 
-    public static function file(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): File
+    public function file(string $label, string $name, array $attributes = []): File
     {
         if (isset($attributes['filemanager']) && $attributes['filemanager'] === true) :
             $attributes['readonly'] = 'readonly';
@@ -123,7 +128,7 @@ class ElementFactory
         return $element;
     }
 
-    public static function hidden(string $name, array $attributes = []): Hidden
+    public function hidden(string $name, array $attributes = []): Hidden
     {
         $element = new Hidden($name, $attributes);
         ElementHelper::setValue($element);
@@ -132,7 +137,7 @@ class ElementFactory
         return $element;
     }
 
-    public static function html(array $attributes, string $prefix = 'html'): Hidden
+    public function html(array $attributes, string $prefix = 'html'): Hidden
     {
         $name = $prefix . '_' . uniqid('', true);
 
@@ -145,44 +150,26 @@ class ElementFactory
         return $element;
     }
 
-    public static function number(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Numeric
+    public function number(string $label, string $name, array $attributes = []): Numeric
     {
         $element = new Numeric($name, $attributes);
-        self::parseDefaults($element, $label, 'number');
+        $this->parseDefaults($element, $label, 'number');
 
         return $element;
     }
 
-    public static function password(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Password
+    public function password(string $label, string $name, array $attributes = []): Password
     {
         $element = new Password($name, $attributes);
-        self::parseDefaults($element, $label, 'password');
+        $this->parseDefaults($element, $label, 'password');
 
         return $element;
     }
 
     /**
-     * @param string $label
-     * @param string $name
-     * @param array $attributes
-     *
-     * @return Select
      * @deprecated should us addDropdown from Form
-     *
      */
-    public static function select(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Select
+    public function select(string $label, string $name, array $attributes = []): Select
     {
         $options = [];
         if (isset($attributes['options'])) :
@@ -239,41 +226,29 @@ class ElementFactory
 
         $element = new Select($name, $options, $attributes);
         $element->setAttribute('options', $options);
-        self::parseDefaults($element, $label, 'select');
+        $this->parseDefaults($element, $label, 'select');
 
         return $element;
     }
 
-    public static function dropdown(
-        string $label,
-        string $name,
-        Attributes $attributes
-    ): Select
+    public function dropdown(string $label, string $name, Attributes $attributes): Select
     {
         $element = new Select($name, $attributes->getOptions(), (array)$attributes);
         $element->setAttribute('options', $attributes->getOptions());
-        self::parseDefaults($element, $label, 'select');
+        $this->parseDefaults($element, $label, 'select');
 
         return $element;
     }
 
-    public static function tel(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Text
+    public function tel(string $label, string $name, array $attributes = []): Text
     {
         $element = new Text($name, $attributes);
-        self::parseDefaults($element, $label, 'tel');
+        $this->parseDefaults($element, $label, 'tel');
 
         return $element;
     }
 
-    public static function date(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): Date
+    public function date(string $label, string $name, ?Attributes $attributes = null): Date
     {
         if ($attributes === null) :
             $attributes = new Attributes();
@@ -281,59 +256,57 @@ class ElementFactory
         $attributes->setInputType('date');
 
         $element = new Date($name, (array)$attributes);
-        self::parseDefaults($element, $label, 'text');
+        $this->parseDefaults($element, $label, 'text');
 
         return $element;
     }
 
-    public static function text(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Text
+    public function text(string $label, string $name, array $attributes = []): Text
     {
         $element = new Text($name, $attributes);
-        self::parseDefaults($element, $label, 'text');
+        $this->parseDefaults($element, $label, 'text');
 
         return $element;
     }
 
-    public static function textarea(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): TextArea
+    public function textarea(string $label, string $name, array $attributes = []): TextArea
     {
         $element = new TextArea($name, $attributes);
-        self::parseDefaults($element, $label, 'textarea');
+        $this->parseDefaults($element, $label, 'textarea');
 
         return $element;
     }
 
-    public static function url(
-        string $label,
-        string $name,
-        array $attributes = []
-    ): Text
+    public function url(string $label, string $name, array $attributes = []): Text
     {
         $element = new Text($name, $attributes);
-        self::parseDefaults($element, $label, 'url');
+        $this->parseDefaults($element, $label, 'url');
 
         return $element;
     }
 
-    public static function parseDefaults(
-        Element $element,
-        string $label,
-        string $template = ''
-    ): void
+    public function parseDefaults(Element $element, string $label, string $template = ''): void
     {
         ElementHelper::setDefaults($element, $label);
-        ElementHelper::setRequired($element);
+        $this->setRequired($element);
         ElementHelper::setValue($element);
 
         if (!empty($template)) :
             $element = ElementUiUtil::setTemplate($element, $template);
+        endif;
+    }
+
+    public function setRequired(ElementInterface $element): void
+    {
+        if ($element->getAttribute('required')) :
+            $element->addValidators([
+                new PresenceOf([
+                    'message' => $this->language->get(
+                        'FORM_REQUIRED_MESSAGE',
+                        ['"'.$element->getLabel().'"']
+                    ),
+                ]),
+            ]);
         endif;
     }
 }

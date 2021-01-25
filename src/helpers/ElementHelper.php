@@ -6,7 +6,6 @@ use VitesseCms\Content\Models\Item;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Core\Factories\ObjectFactory;
 use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Language\Helpers\LanguageHelper;
 use Phalcon\Di;
 use Phalcon\Filter;
 use Phalcon\Forms\ElementInterface;
@@ -30,20 +29,6 @@ class ElementHelper
                 Filter::FILTER_ALPHANUM
             )
         );
-    }
-
-    public static function setRequired(ElementInterface $element): void
-    {
-        if ($element->getAttribute('required')) :
-            $element->addValidators([
-                new PresenceOf([
-                    'message' => LanguageHelper::_(
-                        'FORM_REQUIRED_MESSAGE',
-                        [strtolower($element->getLabel())]
-                    ),
-                ]),
-            ]);
-        endif;
     }
 
     public static function setValue(ElementInterface $element): void

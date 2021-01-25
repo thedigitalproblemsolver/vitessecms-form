@@ -90,59 +90,59 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                 $attributes['options'] = ElementHelper::arrayToSelectOptions(PermissionRole::findAll());
                 $attributes['multiple'] = true;
                 $this->assets->load('select2');
-                $this->add(ElementFactory::select($label, $name, $attributes));
+                $this->add($this->form->elementFactory->select($label, $name, $attributes));
                 break;
             case 'button';
-                $this->add(ElementFactory::button($label, $name));
+                $this->add($this->form->elementFactory->button($label, $name));
                 break;
             case 'checkbox':
-                $this->add(ElementFactory::checkbox($label, $name, $attributes));
+                $this->add($this->form->elementFactory->checkbox($label, $name, $attributes));
                 break;
             case 'empty';
-                $this->add(ElementFactory::emptyButton($label));
+                $this->add($this->form->elementFactory->emptyButton($label));
                 break;
             case 'file':
-                $this->add(ElementFactory::file($label, $name, $attributes));
+                $this->add($this->form->elementFactory->file($label, $name, $attributes));
                 break;
             case 'hidden':
-                $this->add(ElementFactory::hidden($name, $attributes));
+                $this->add($this->form->elementFactory->hidden($name, $attributes));
                 break;
             case 'html':
-                $this->add(ElementFactory::html($attributes));
+                $this->add($this->form->elementFactory->html($attributes));
                 break;
             case 'htmlraw':
-                $this->add(ElementFactory::html($attributes, 'htmlraw'));
+                $this->add($this->form->elementFactory->html($attributes, 'htmlraw'));
                 break;
             case 'number':
-                $this->add(ElementFactory::number($label, $name, $attributes));
+                $this->add($this->form->elementFactory->number($label, $name, $attributes));
                 break;
             case 'email':
-                $this->add(ElementFactory::email($label, $name, $attributes));
+                $this->add($this->form->elementFactory->email($label, $name, $attributes));
                 break;
             case 'password':
-                $this->add(ElementFactory::password($label, $name, $attributes));
+                $this->add($this->form->elementFactory->password($label, $name, $attributes));
                 break;
             case 'reset';
-                $this->add(ElementFactory::resetButton($label));
+                $this->add($this->form->elementFactory->resetButton($label));
                 break;
             case 'submit';
-                $this->add(ElementFactory::submitButton($label, '', $attributes));
+                $this->add($this->form->elementFactory->submitButton($label, '', $attributes));
                 break;
             case 'tel':
-                $this->add(ElementFactory::tel($label, $name, $attributes));
+                $this->add($this->form->elementFactory->tel($label, $name, $attributes));
                 break;
             case 'text':
-                $this->add(ElementFactory::text($label, $name, $attributes));
+                $this->add($this->form->elementFactory->text($label, $name, $attributes));
                 break;
             case 'textarea':
-                $this->add(ElementFactory::textarea($label, $name, $attributes));
+                $this->add($this->form->elementFactory->textarea($label, $name, $attributes));
                 break;
             case 'select':
                 $this->assets->load('select2');
-                $this->add(ElementFactory::select($label, $name, $attributes));
+                $this->add($this->form->elementFactory->select($label, $name, $attributes));
                 break;
             case 'url':
-                $this->add(ElementFactory::url($label, $name, $attributes));
+                $this->add($this->form->elementFactory->url($label, $name, $attributes));
                 break;
         endswitch;
 
@@ -158,21 +158,21 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addSubmitButton(string $label): AbstractFormInterface
     {
-        $this->add(ElementFactory::submitButton($label));
+        $this->add($this->form->elementFactory->submitButton($label));
 
         return $this;
     }
 
     public function addEmptyButton(string $label): AbstractFormInterface
     {
-        $this->add(ElementFactory::emptyButton($label));
+        $this->add($this->form->elementFactory->emptyButton($label));
 
         return $this;
     }
 
     public function addButton(string $label, string $name): AbstractFormInterface
     {
-        $this->add(ElementFactory::button($label, $name));
+        $this->add($this->form->elementFactory->button($label, $name));
 
         return $this;
     }
@@ -180,7 +180,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function addToggle(string $label, string $name): AbstractFormInterface
     {
         $this->assets->load(AssetsEnum::BOOTSTRAP_TOGGLE);
-        $this->add(ElementFactory::checkbox($label, $name, ['template' => 'checkbox_toggle']));
+        $this->add($this->form->elementFactory->checkbox($label, $name, ['template' => 'checkbox_toggle']));
 
         return $this;
     }
@@ -196,14 +196,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
         $attributes->setInputType('number');
 
-        $this->add(ElementFactory::number($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->number($label, $name, (array)$attributes));
 
         return $this;
     }
 
     public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add(ElementFactory::text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -214,7 +214,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         ?Attributes $attributes = null
     ): AbstractFormInterface
     {
-        $this->add(ElementFactory::url($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->url($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -229,7 +229,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $attributes = new Attributes();
         endif;
         $attributes->setInputClass('editor');
-        $this->add(ElementFactory::textarea($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->textarea($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -240,7 +240,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         ?Attributes $attributes = null
     ): AbstractFormInterface
     {
-        $this->add(ElementFactory::email($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->email($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -251,14 +251,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         ?Attributes $attributes = null
     ): AbstractFormInterface
     {
-        $this->add(ElementFactory::password($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->password($label, $name, (array)$attributes));
 
         return $this;
     }
 
     public function addHtml(string $html): AbstractFormInterface
     {
-        $this->add(ElementFactory::html(['html' => $html]));
+        $this->add($this->form->elementFactory->html(['html' => $html]));
 
         return $this;
     }
@@ -272,7 +272,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
             $this->assets->load(AssetsEnum::SELECT2);
         endif;
-        $this->add(ElementFactory::dropdown($label, $name, $attributes));
+        $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));
 
         return $this;
     }
@@ -294,7 +294,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addHidden(string $name, ?string $value = null): AbstractFormInterface
     {
-        $this->add(ElementFactory::hidden($name, ['value' => $value]));
+        $this->add($this->form->elementFactory->hidden($name, ['value' => $value]));
 
         return $this;
     }
@@ -306,7 +306,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
         $attributes->setTemplate('filemanager')->setFilemanager(true);
 
-        $this->add(ElementFactory::file($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -317,14 +317,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $attributes = new Attributes();
         endif;
 
-        $this->add(ElementFactory::file($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
 
         return $this;
     }
 
     public function addDate(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add(ElementFactory::date($label, $name, $attributes));
+        $this->add($this->form->elementFactory->date($label, $name, $attributes));
 
         return $this;
     }
@@ -335,7 +335,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $attributes = new Attributes();
         endif;
         $attributes->setInputType('time');
-        $this->add(ElementFactory::text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
 
         return $this;
     }
@@ -502,7 +502,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $messages = $this->getMessages();
 
             foreach ($messages as $message) {
-                $this->flash->setError($message);
+                $this->flash->setError((string)$message);
             }
 
             return false;
