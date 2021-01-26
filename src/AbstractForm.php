@@ -177,10 +177,15 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addToggle(string $label, string $name): AbstractFormInterface
+    public function addToggle(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
+        if ($attributes === null) :
+            $attributes = new Attributes();
+        endif;
+        $attributes->setTemplate('checkbox_toggle');
+
         $this->assets->load(AssetsEnum::BOOTSTRAP_TOGGLE);
-        $this->add($this->form->elementFactory->checkbox($label, $name, ['template' => 'checkbox_toggle']));
+        $this->add($this->form->elementFactory->checkbox($label, $name, (array)$attributes));
 
         return $this;
     }

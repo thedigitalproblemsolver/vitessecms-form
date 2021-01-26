@@ -55,6 +55,11 @@ class Attributes
     public $filemanager;
 
     /**
+     * @var bool
+     */
+    public $checked;
+
+    /**
      * @var string
      */
     public $dataUrl;
@@ -71,6 +76,7 @@ class Attributes
         $this->options = [];
         $this->template = '';
         $this->filemanager = false;
+        $this->checked = false;
     }
 
     public function setInputType(string $inputType): Attributes
@@ -162,6 +168,13 @@ class Attributes
     public function setDefaultValue($defaultValue): Attributes
     {
         $this->defaultValue = $defaultValue;
+
+        return $this;
+    }
+
+    public function setChecked(bool $checked): Attributes
+    {
+        $this->checked = $checked;
 
         return $this;
     }
