@@ -64,6 +64,16 @@ class Attributes
      */
     public $dataUrl;
 
+    /**
+     * @var int
+     */
+    public $min;
+
+    /**
+     * @var int
+     */
+    public $max;
+
     public $defaultValue;
 
     public function __construct()
@@ -117,7 +127,7 @@ class Attributes
         return $this->options;
     }
 
-    public function setMultiple(bool $multiple): Attributes
+    public function setMultiple(bool $multiple = true): Attributes
     {
         $this->multiple = $multiple;
 
@@ -175,6 +185,20 @@ class Attributes
     public function setChecked(bool $checked): Attributes
     {
         $this->checked = $checked;
+
+        return $this;
+    }
+
+    public function setMin(int $min): Attributes
+    {
+        $this->min = $min;
+
+        return $this;
+    }
+
+    public function setMax(int $max): Attributes
+    {
+        $this->max = $max;
 
         return $this;
     }
