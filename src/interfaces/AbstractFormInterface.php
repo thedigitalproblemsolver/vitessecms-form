@@ -11,24 +11,11 @@ use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Media\Services\AssetsService;
 
 /**
- * Interface AbstractFormInterface
  * @property ViewService $view
  * @property AssetsService $assets
  */
 interface AbstractFormInterface extends InjectableInterface
 {
-    /**
-     * @param string $type
-     * @param string|null $label
-     * @param string|null $name
-     * @param array $attributes
-     *
-     * @return AbstractFormInterface
-     * @deprecated use adders instead of this to generic function
-     *
-     */
-    public function _(string $type, string $label = null, string $name = null, array $attributes = []): AbstractFormInterface;
-
     public function addSubmitButton(string $label): AbstractFormInterface;
 
     public function addEmptyButton(string $label): AbstractFormInterface;
@@ -65,12 +52,7 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function addTime(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function renderForm(
-        string $action,
-        string $formName = null,
-        bool $noAjax = false,
-        bool $newWindow = false
-    ): string;
+    public function renderForm(string $action, string $formName = null, bool $noAjax = false, bool $newWindow = false): string;
 
     public function getCsrf(): string;
 
