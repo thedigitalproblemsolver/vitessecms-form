@@ -70,85 +70,6 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
     }
 
-    /**
-     * @deprecated use add-ers instead of this to generic function
-     */
-    public function _(
-        string $type,
-        string $label = null,
-        string $name = null,
-        array $attributes = []
-    ): AbstractFormInterface
-    {
-        $attributes['id'] = $this->filter->sanitize($name, Filter::FILTER_ALPHANUM);
-        if (ElementHelper::$form === null) :
-            ElementHelper::$form = $this;
-        endif;
-
-        switch ($type) :
-            case 'acl':
-                $attributes['options'] = ElementHelper::arrayToSelectOptions(PermissionRole::findAll());
-                $attributes['multiple'] = true;
-                $this->assets->load('select2');
-                $this->add($this->form->elementFactory->select($label, $name, $attributes));
-                break;
-            case 'button';
-                $this->add($this->form->elementFactory->button($label, $name));
-                break;
-            case 'checkbox':
-                $this->add($this->form->elementFactory->checkbox($label, $name, $attributes));
-                break;
-            case 'empty';
-                $this->add($this->form->elementFactory->emptyButton($label));
-                break;
-            case 'file':
-                $this->add($this->form->elementFactory->file($label, $name, $attributes));
-                break;
-            case 'hidden':
-                $this->add($this->form->elementFactory->hidden($name, $attributes));
-                break;
-            case 'html':
-                $this->add($this->form->elementFactory->html($attributes));
-                break;
-            case 'htmlraw':
-                $this->add($this->form->elementFactory->html($attributes, 'htmlraw'));
-                break;
-            case 'number':
-                $this->add($this->form->elementFactory->number($label, $name, $attributes));
-                break;
-            case 'email':
-                $this->add($this->form->elementFactory->email($label, $name, $attributes));
-                break;
-            case 'password':
-                $this->add($this->form->elementFactory->password($label, $name, $attributes));
-                break;
-            case 'reset';
-                $this->add($this->form->elementFactory->resetButton($label));
-                break;
-            case 'submit';
-                $this->add($this->form->elementFactory->submitButton($label, '', $attributes));
-                break;
-            case 'tel':
-                $this->add($this->form->elementFactory->tel($label, $name, $attributes));
-                break;
-            case 'text':
-                $this->add($this->form->elementFactory->text($label, $name, $attributes));
-                break;
-            case 'textarea':
-                $this->add($this->form->elementFactory->textarea($label, $name, $attributes));
-                break;
-            case 'select':
-                $this->assets->load('select2');
-                $this->add($this->form->elementFactory->select($label, $name, $attributes));
-                break;
-            case 'url':
-                $this->add($this->form->elementFactory->url($label, $name, $attributes));
-                break;
-        endswitch;
-
-        return $this;
-    }
-
     public function addCsrf(): AbstractFormInterface
     {
         $this->add((new Hidden('csrf'))->setAttribute('template', 'csrf'));
@@ -190,11 +111,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addNumber(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface
+    public function addNumber(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         if ($attributes === null) :
             $attributes = new Attributes();
@@ -213,22 +130,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addUrl(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface
+    public function addUrl(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->url($label, $name, (array)$attributes));
 
         return $this;
     }
 
-    public function addEditor(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface
+    public function addEditor(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         if ($attributes === null) :
             $attributes = new Attributes();
@@ -239,22 +148,21 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addEmail(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface
+    public function addTextarea(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
+        $this->add($this->form->elementFactory->textarea($label, $name, (array)$attributes));
+
+        return $this;
+    }
+
+    public function addEmail(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->email($label, $name, (array)$attributes));
 
         return $this;
     }
 
-    public function addPassword(
-        string $label,
-        string $name,
-        ?Attributes $attributes = null
-    ): AbstractFormInterface
+    public function addPassword(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->password($label, $name, (array)$attributes));
 
@@ -268,11 +176,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addDropdown(
-        string $label,
-        string $name,
-        Attributes $attributes
-    ): AbstractFormInterface
+    public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
     {
         if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
             $this->assets->load(AssetsEnum::SELECT2);
