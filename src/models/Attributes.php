@@ -76,6 +76,11 @@ class Attributes
 
     public $defaultValue;
 
+    /**
+     * @var float
+     */
+    public $step;
+
     public function __construct()
     {
         $this->inputClass = '';
@@ -134,7 +139,7 @@ class Attributes
         return $this;
     }
 
-    public function setReadonly(bool $readonly): Attributes
+    public function setReadonly(bool $readonly = true): Attributes
     {
         $this->readonly = $readonly;
         $this->disabled = $readonly;
@@ -182,7 +187,7 @@ class Attributes
         return $this;
     }
 
-    public function setChecked(bool $checked): Attributes
+    public function setChecked(bool $checked = true): Attributes
     {
         $this->checked = $checked;
 
@@ -199,6 +204,13 @@ class Attributes
     public function setMax(int $max): Attributes
     {
         $this->max = $max;
+
+        return $this;
+    }
+
+    public function setStep(float $step): Attributes
+    {
+        $this->step = $step;
 
         return $this;
     }
