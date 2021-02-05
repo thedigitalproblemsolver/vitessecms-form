@@ -81,6 +81,16 @@ class Attributes
      */
     public $step;
 
+    /**
+     * @var array
+     */
+    public $allowedTypes;
+
+    /**
+     * @var bool;
+     */
+    public $noEmptyText;
+
     public function __construct()
     {
         $this->inputClass = '';
@@ -92,6 +102,7 @@ class Attributes
         $this->template = '';
         $this->filemanager = false;
         $this->checked = false;
+        $this->allowedTypes = [];
     }
 
     public function setInputType(string $inputType): Attributes
@@ -211,6 +222,20 @@ class Attributes
     public function setStep(float $step): Attributes
     {
         $this->step = $step;
+
+        return $this;
+    }
+
+    public function setAllowedTypes(array $allowedTypes): Attributes
+    {
+        $this->allowedTypes = $allowedTypes;
+
+        return $this;
+    }
+
+    public function setNoEmptyText(bool $noEmptyText = true): Attributes
+    {
+        $this->noEmptyText = $noEmptyText;
 
         return $this;
     }

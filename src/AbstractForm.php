@@ -123,6 +123,18 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
+    public function addPhone(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
+        if ($attributes === null) :
+            $attributes = new Attributes();
+        endif;
+        $attributes->setInputType('tel');
+
+        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+
+        return $this;
+    }
+
     public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
@@ -215,6 +227,13 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
         $attributes->setTemplate('filemanager')->setFilemanager(true);
 
+        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
+
+        return $this;
+    }
+
+    public function addFile(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
         $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
 
         return $this;

@@ -48,6 +48,8 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function addFilemanager(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
+    public function addFile(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
+
     public function addUpload(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
     public function addDate(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
