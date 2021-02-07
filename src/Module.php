@@ -6,7 +6,7 @@ use VitesseCms\Block\Repositories\BlockFormBuilderRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Core\AbstractModule;
-use VitesseCms\Core\Repositories\DatagroupRepository;
+use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use VitesseCms\Form\Repositories\RepositoryCollection;
 use VitesseCms\Language\Repositories\LanguageRepository;
 use Phalcon\DiInterface;
