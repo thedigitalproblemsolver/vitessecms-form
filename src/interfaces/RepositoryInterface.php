@@ -4,7 +4,7 @@ namespace VitesseCms\Form\Interfaces;
 
 use VitesseCms\Block\Repositories\BlockFormBuilderRepository;
 use VitesseCms\Communication\Repositories\NewsletterRepository;
-use VitesseCms\Core\Repositories\DatagroupRepository;
+use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use VitesseCms\Language\Repositories\LanguageRepository;
 
 /**
