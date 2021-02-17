@@ -3,11 +3,12 @@
 namespace VitesseCms\Form\Listeners;
 
 use Phalcon\Events\Manager;
+use VitesseCms\Form\Controllers\AdminsubmissionController;
 
 class InitiateAdminListeners
 {
     public static function setListeners(Manager $eventsManager): void
     {
-        $eventsManager->attach('AdminsubmissionController', new AdminsubmissionControllerListener());
+        $eventsManager->attach(AdminsubmissionController::class, new AdminsubmissionControllerListener());
     }
 }
