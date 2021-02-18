@@ -68,21 +68,22 @@ class ElementHelper
         array $array,
         array $selected = [],
         bool $nameWithParents = false
-    ): array {
+    ): array
+    {
         $selectedCheck = ObjectFactory::create();
         foreach ($selected as $value) :
             if (is_array($value)) :
                 foreach ($value as $key => $id) :
                     $selectedCheck->set($id, true);
                 endforeach;
-            elseif(is_string($value)) :
+            elseif (is_string($value)) :
                 $selectedCheck->set($value, true);
             endif;
         endforeach;
 
         $options = [[
-            'value'    => '',
-            'label'    => '%FORM_CHOOSE_AN_OPTION%',
+            'value' => '',
+            'label' => '%FORM_CHOOSE_AN_OPTION%',
             'selected' => false,
         ]];
         if (
@@ -94,7 +95,7 @@ class ElementHelper
             /** @var Item $item */
             foreach ($array as $item) :
                 $label = [$item->getNameField()];
-                if($nameWithParents && $item->hasParent()) {
+                if ($nameWithParents && $item->hasParent()) {
                     $label = [];
                     $pathFromRootItems = ItemHelper::getPathFromRoot($item);
                     /** @var AbstractCollection $pathFromRootItem */
@@ -103,17 +104,17 @@ class ElementHelper
                     endforeach;
                 }
                 $options[] = [
-                    'value'    => (string)$item->getId(),
-                    'label'    => implode(' > ', $label),
+                    'value' => (string)$item->getId(),
+                    'label' => implode(' > ', $label),
                     'selected' => $selectedCheck->_((string)$item->getId()),
                 ];
             endforeach;
         else :
             foreach ($array as $value => $label) :
                 $options[] = [
-                    'value'    => $value,
-                    'label'    => $label,
-                    'selected' => $selectedCheck->_((string) $value),
+                    'value' => $value,
+                    'label' => $label,
+                    'selected' => $selectedCheck->_((string)$value),
                 ];
             endforeach;
         endif;
@@ -124,8 +125,8 @@ class ElementHelper
     public static function modelIteratorToOptions(ArrayIterator $iterator): array
     {
         $options = [[
-            'value'    => '',
-            'label'    => '%FORM_CHOOSE_AN_OPTION%',
+            'value' => '',
+            'label' => '%FORM_CHOOSE_AN_OPTION%',
             'selected' => false,
         ]];
 
@@ -135,8 +136,8 @@ class ElementHelper
             $item = $iterator->current();
 
             $options[] = [
-                'value'    => (string)$item->getId(),
-                'label'    => $item->getNameField(),
+                'value' => (string)$item->getId(),
+                'label' => $item->getNameField(),
                 'selected' => null,
             ];
 
@@ -148,8 +149,8 @@ class ElementHelper
 
     public static function parseTextNameAttribute(string $name): array
     {
-        $return = explode('[',$name);
-        $return[1] = str_replace(']','',$return[1]);
+        $return = explode('[', $name);
+        $return[1] = str_replace(']', '', $return[1]);
 
         return $return;
     }

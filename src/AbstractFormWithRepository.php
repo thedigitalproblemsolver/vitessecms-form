@@ -16,7 +16,8 @@ abstract class AbstractFormWithRepository extends AbstractForm implements FormWi
         return $this;
     }
 
-    public function setEntity($entity) {
+    public function setEntity($entity)
+    {
         $this->_entity = $entity;
     }
 }

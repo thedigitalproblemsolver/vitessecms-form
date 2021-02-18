@@ -26,28 +26,6 @@ class ElementUiHelper implements InjectableInterface
         $this->languageRepository = $languageRepository;
     }
 
-    private function generatePreview(ElementInterface $element, string $key = null): string
-    {
-        if (get_class($element) === File::class) :
-            $file = null;
-            $value = $element->getValue();
-
-            if (is_string($value)) :
-                $file = FileUtil::getTag($value);
-            elseif (is_array($value)) :
-                if (isset($value[$key])) :
-                    $file = FileUtil::getTag($value[$key]);
-                endif;
-            endif;
-
-            if ($file !== null) :
-                return '<div class="file-preview">'.$file.'</div>';
-            endif;
-        endif;
-
-        return '';
-    }
-
     public function renderElement(ElementInterface $element, AbstractForm $form): string
     {
         $inputClass = $element->getAttribute('inputClass', '');
@@ -110,12 +88,35 @@ class ElementUiHelper implements InjectableInterface
         return $return;
     }
 
+    private function generatePreview(ElementInterface $element, string $key = null): string
+    {
+        if (get_class($element) === File::class) :
+            $file = null;
+            $value = $element->getValue();
+
+            if (is_string($value)) :
+                $file = FileUtil::getTag($value);
+            elseif (is_array($value)) :
+                if (isset($value[$key])) :
+                    $file = FileUtil::getTag($value[$key]);
+                endif;
+            endif;
+
+            if ($file !== null) :
+                return '<div class="file-preview">' . $file . '</div>';
+            endif;
+        endif;
+
+        return '';
+    }
+
     private function renderSingleLanguageElement(
         ElementInterface $element,
         AbstractForm $form,
         $entity,
         string $inputClass
-    ): string {
+    ): string
+    {
         $return = '';
 
         if ($element->getAttribute('multiple')) :
@@ -131,7 +132,7 @@ class ElementUiHelper implements InjectableInterface
                 $value = implode(',', $element->getValue());
             endif;
             $return .= Tag::hiddenField([
-                $element->getAttribute('id').'_select2Sortable',
+                $element->getAttribute('id') . '_select2Sortable',
                 'value' => $value,
             ]);
         endif;

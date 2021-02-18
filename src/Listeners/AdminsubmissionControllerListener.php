@@ -10,7 +10,8 @@ use VitesseCms\Form\Models\Submission;
 
 class AdminsubmissionControllerListener
 {
-    public function beforeEdit(Event $event, AdminsubmissionController $controller, Submission $submission): void {
+    public function beforeEdit(Event $event, AdminsubmissionController $controller, Submission $submission): void
+    {
         $controller->addRenderParam('adminEditForm', SubmissionHelper::getHtmlAdminTable($submission, true));
     }
 

@@ -25,12 +25,12 @@ class IndexController extends AbstractController implements RepositoriesInterfac
                 $this->request->getPost('block'),
                 $this->view
             );
-            if($blockFormBuilder !== null) :
-                if($blockFormBuilder->isUseRecaptcha() && !FormUtil::hasValidRecaptcha($post)) :
+            if ($blockFormBuilder !== null) :
+                if ($blockFormBuilder->isUseRecaptcha() && !FormUtil::hasValidRecaptcha($post)) :
                     $hasErrors = true;
                 else :
                     unset($post['password'], $post['password2'], $post['csrf']);
-                    $languages = $this->repositories->language->findAll(null,false);
+                    $languages = $this->repositories->language->findAll(null, false);
                     while ($languages->valid()):
                         $language = $languages->current();
                         $post['name'][$language->getShortCode()] = date('Y-m-d H:i:s') . ' : ' . $blockFormBuilder->getNameField();
@@ -38,7 +38,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
                     endwhile;
 
                     $datagroup = $this->repositories->datagroup->getById($blockFormBuilder->getDatagroup());
-                    if($datagroup !== null):
+                    if ($datagroup !== null):
                         $form = new BaseForm();
                         $datagroup->buildItemForm($form);
                         if ($form->isValid($post)) :
@@ -116,11 +116,11 @@ class IndexController extends AbstractController implements RepositoriesInterfac
     protected function parseNewsletters(BlockFormBuilder $blockFormBuilder): void
     {
         $newsletters = $blockFormBuilder->getNewsletters();
-        if($this->request->hasPost('email')) :
+        if ($this->request->hasPost('email')) :
             foreach ($newsletters as $newsletterId) :
                 $newsletter = $this->repositories->newsletter->getById($newsletterId);
-                if($newsletter) :
-                    NewsletterHelper::addMemberByEmail($newsletter,$this->request->get('email'));
+                if ($newsletter) :
+                    NewsletterHelper::addMemberByEmail($newsletter, $this->request->get('email'));
                 endif;
             endforeach;
         endif;

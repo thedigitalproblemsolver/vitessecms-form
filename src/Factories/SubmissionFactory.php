@@ -14,9 +14,9 @@ class SubmissionFactory
         $submission->set('sourceUri', $_SERVER['HTTP_REFERER']);
         $submission->set('ipAddress', $_SERVER['REMOTE_ADDR']);
         Language::setFindValue('short', Di::getDefault()->get('configuration')->getLanguageShort());
-        $submission->set('language', Language::findFirst() );
+        $submission->set('language', Language::findFirst());
 
-        if(Di::getDefault()->get('user')->loggedIn()) :
+        if (Di::getDefault()->get('user')->loggedIn()) :
             $submission->set('user', Di::getDefault()->get('user'));
         endif;
 

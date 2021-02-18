@@ -20,21 +20,37 @@ class SubmissionHelper
         return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_USER);
     }
 
-    public static function getHtmlAdminTable(
-        Submission $submission,
+    protected static function buildHtmlTable(
+        AbstractCollection $submission,
+        array $excludedFields,
         bool $linkify = false
-    ): string {
-        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_ADMIN, $linkify);
-    }
+    ): string
+    {
+        $table = '<table class="table">';
+        $properties = (new ReflectionObject($submission))->getProperties(
+            ReflectionProperty::IS_PUBLIC
+        );
 
-    public static function bindFormPost(
-        Submission $submission,
-        array $array
-    ): void {
-        foreach ($array as $key => $value) :
-            $submission->addFieldname($key);
-            $submission->set($key, $value);
+        foreach ($properties as $property) :
+            if (!in_array($property->name, $excludedFields, true)) :
+                $name = $property->name;
+                if (
+                    is_array($submission->_('fieldNames'))
+                    && isset($submission->_('fieldNames')[$name])
+                ) :
+                    $name = $submission->_('fieldNames')[$name];
+                endif;
+
+                $table .= '<tr>
+                    <td>' . $name . '</td>
+                    <td width="15px"></td>
+                    <td>' . self::parseValue($submission->_($property->name), $linkify) . '</td>
+                </tr>';
+            endif;
         endforeach;
+        $table .= '</table>';
+
+        return $table;
     }
 
     protected static function parseValue($value, bool $linkify = false): string
@@ -60,11 +76,11 @@ class SubmissionHelper
         endif;
 
         if ($linkify) :
-            if (is_file(Di::getDefault()->get('config')->get('uploadDir').'uploads/'.$value)) :
-                $return = Di::getDefault()->get('url')->getBaseUri().
-                    'uploads/'.
-                    Di::getDefault()->get('config')->get('account').
-                    '/uploads/'.$value;
+            if (is_file(Di::getDefault()->get('config')->get('uploadDir') . 'uploads/' . $value)) :
+                $return = Di::getDefault()->get('url')->getBaseUri() .
+                    'uploads/' .
+                    Di::getDefault()->get('config')->get('account') .
+                    '/uploads/' . $value;
             endif;
 
             $return = (new Linkify(['attr' => ['target' => '_blank']]))->process($return);
@@ -73,36 +89,24 @@ class SubmissionHelper
         return $return;
     }
 
-    //TODO mpve to mustache
-    protected static function buildHtmlTable(
-        AbstractCollection $submission,
-        array $excludedFields,
+    public static function getHtmlAdminTable(
+        Submission $submission,
         bool $linkify = false
-    ): string {
-        $table = '<table class="table">';
-        $properties = (new ReflectionObject($submission))->getProperties(
-            ReflectionProperty::IS_PUBLIC
-        );
+    ): string
+    {
+        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_ADMIN, $linkify);
+    }
 
-        foreach ($properties as $property) :
-            if (!in_array($property->name, $excludedFields, true)) :
-                $name = $property->name;
-                if (
-                    is_array($submission->_('fieldNames'))
-                    && isset($submission->_('fieldNames')[$name])
-                ) :
-                    $name = $submission->_('fieldNames')[$name];
-                endif;
+    //TODO mpve to mustache
 
-                $table .= '<tr>
-                    <td>'.$name.'</td>
-                    <td width="15px"></td>
-                    <td>'.self::parseValue($submission->_($property->name), $linkify).'</td>
-                </tr>';
-            endif;
+    public static function bindFormPost(
+        Submission $submission,
+        array $array
+    ): void
+    {
+        foreach ($array as $key => $value) :
+            $submission->addFieldname($key);
+            $submission->set($key, $value);
         endforeach;
-        $table .= '</table>';
-
-        return $table;
     }
 }

@@ -11,7 +11,8 @@ class FormService
      */
     public $elementFactory;
 
-    public function __construct(ElementFactory $elementFactory){
+    public function __construct(ElementFactory $elementFactory)
+    {
         $this->elementFactory = $elementFactory;
     }
 }

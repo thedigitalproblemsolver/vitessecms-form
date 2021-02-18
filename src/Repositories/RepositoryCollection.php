@@ -35,7 +35,8 @@ class RepositoryCollection implements RepositoryInterface
         LanguageRepository $languageRepository,
         DatagroupRepository $datagroupRepository,
         NewsletterRepository $newsletterRepository
-    ) {
+    )
+    {
         $this->blockFormBuilder = $blockFormBuilderRepository;
         $this->language = $languageRepository;
         $this->datagroup = $datagroupRepository;

@@ -86,6 +86,31 @@ class ElementFactory
         return $element;
     }
 
+    public function parseDefaults(Element $element, string $label, string $template = ''): void
+    {
+        ElementHelper::setDefaults($element, $label);
+        $this->setRequired($element);
+        ElementHelper::setValue($element);
+
+        if (!empty($template)) :
+            $element = ElementUiUtil::setTemplate($element, $template);
+        endif;
+    }
+
+    public function setRequired(ElementInterface $element): void
+    {
+        if ($element->getAttribute('required')) :
+            $element->addValidators([
+                new PresenceOf([
+                    'message' => $this->language->get(
+                        'FORM_REQUIRED_MESSAGE',
+                        ['"' . $element->getLabel() . '"']
+                    ),
+                ]),
+            ]);
+        endif;
+    }
+
     public function email(string $label, string $name, array $attributes = []): Email
     {
         $element = new Email($name, $attributes);
@@ -283,30 +308,5 @@ class ElementFactory
         $this->parseDefaults($element, $label, 'url');
 
         return $element;
-    }
-
-    public function parseDefaults(Element $element, string $label, string $template = ''): void
-    {
-        ElementHelper::setDefaults($element, $label);
-        $this->setRequired($element);
-        ElementHelper::setValue($element);
-
-        if (!empty($template)) :
-            $element = ElementUiUtil::setTemplate($element, $template);
-        endif;
-    }
-
-    public function setRequired(ElementInterface $element): void
-    {
-        if ($element->getAttribute('required')) :
-            $element->addValidators([
-                new PresenceOf([
-                    'message' => $this->language->get(
-                        'FORM_REQUIRED_MESSAGE',
-                        ['"'.$element->getLabel().'"']
-                    ),
-                ]),
-            ]);
-        endif;
     }
 }
