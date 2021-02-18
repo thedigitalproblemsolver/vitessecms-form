@@ -2,11 +2,6 @@
 
 namespace VitesseCms\Form\Factories;
 
-use Phalcon\Validation\Validator\PresenceOf;
-use VitesseCms\Database\AbstractCollection;
-use VitesseCms\Form\Helpers\ElementHelper;
-use VitesseCms\Form\Models\Attributes;
-use VitesseCms\Form\Utils\ElementUiUtil;
 use Phalcon\Di;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\Element\Check;
@@ -22,6 +17,11 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Validation\Validator\File as FileValidator;
+use Phalcon\Validation\Validator\PresenceOf;
+use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Form\Helpers\ElementHelper;
+use VitesseCms\Form\Models\Attributes;
+use VitesseCms\Form\Utils\ElementUiUtil;
 use VitesseCms\Language\Helpers\LanguageHelper;
 use VitesseCms\Language\Services\LanguageService;
 

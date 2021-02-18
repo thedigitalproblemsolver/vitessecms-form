@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form\Interfaces;
 
-use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Form\Helpers\AddElementHelper;

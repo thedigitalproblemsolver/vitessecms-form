@@ -2,16 +2,15 @@
 
 namespace VitesseCms\Form\Helpers;
 
-use VitesseCms\Content\Models\Item;
-use VitesseCms\Database\AbstractCollection;
-use VitesseCms\Core\Factories\ObjectFactory;
-use VitesseCms\Core\Helpers\ItemHelper;
+use ArrayIterator;
 use Phalcon\Di;
 use Phalcon\Filter;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Forms\Form;
-use Phalcon\Validation\Validator\PresenceOf;
-use ArrayIterator;
+use VitesseCms\Content\Models\Item;
+use VitesseCms\Core\Factories\ObjectFactory;
+use VitesseCms\Core\Helpers\ItemHelper;
+use VitesseCms\Database\AbstractCollection;
 
 class ElementHelper
 {

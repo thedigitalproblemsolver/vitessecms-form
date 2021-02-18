@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form\Interfaces;
 
-use VitesseCms\Database\Interfaces\BaseCollectionInterface;
 use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 
 interface FormWithRepositoryInterface

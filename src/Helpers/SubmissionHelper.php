@@ -3,16 +3,15 @@
 namespace VitesseCms\Form\Helpers;
 
 use Misd\Linkify\Linkify;
+use Phalcon\Di;
+use ReflectionObject;
+use ReflectionProperty;
 use VitesseCms\Communication\Repositories\NewsletterListRepository;
-use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Database\Utils\MongoUtil;
 use VitesseCms\Form\Enums\SubmissionEnum;
 use VitesseCms\Form\Models\Submission;
-use Phalcon\Di;
-use ReflectionObject;
-use ReflectionProperty;
 
 class SubmissionHelper
 {

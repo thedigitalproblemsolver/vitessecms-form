@@ -2,9 +2,9 @@
 
 namespace VitesseCms\Form\Factories;
 
+use Phalcon\Di;
 use VitesseCms\Form\Models\Submission;
 use VitesseCms\Language\Models\Language;
-use Phalcon\Di;
 
 class SubmissionFactory
 {

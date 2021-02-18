@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form\Helpers;
 
-use VitesseCms\Form\AbstractForm;
 use Phalcon\Forms\Form;
 
 class FormHelper

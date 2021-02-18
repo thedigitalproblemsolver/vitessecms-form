@@ -2,8 +2,8 @@
 
 namespace VitesseCms\Form\Utils;
 
-use VitesseCms\Form\AbstractForm;
 use Phalcon\Forms\ElementInterface;
+use VitesseCms\Form\AbstractForm;
 
 class FormUtil
 {
