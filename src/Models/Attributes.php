@@ -119,6 +119,11 @@ class Attributes
         return $this;
     }
 
+    public function getInputClass(): string
+    {
+        return $this->inputClass;
+    }
+
     public function setInputClass(string $inputClass): Attributes
     {
         $this->inputClass = $inputClass;
@@ -126,9 +131,9 @@ class Attributes
         return $this;
     }
 
-    public function getInputClass(): string
+    public function getOptions(): array
     {
-        return $this->inputClass;
+        return $this->options;
     }
 
     public function setOptions(array $options): Attributes
@@ -136,11 +141,6 @@ class Attributes
         $this->options = $options;
 
         return $this;
-    }
-
-    public function getOptions(): array
-    {
-        return $this->options;
     }
 
     public function setMultiple(bool $multiple = true): Attributes

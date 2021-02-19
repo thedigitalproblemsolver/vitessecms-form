@@ -2,17 +2,17 @@
 
 namespace VitesseCms\Form\Helpers;
 
+use Phalcon\Forms\Element\File;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\ElementInterface;
+use Phalcon\Tag;
 use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Utils\FileUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Utils\FormUtil;
 use VitesseCms\Language\Repositories\LanguageRepository;
 use VitesseCms\Media\Enums\AssetsEnum;
-use Phalcon\Forms\Element\File;
-use Phalcon\Forms\Element\Select;
-use Phalcon\Forms\Element\Text;
-use Phalcon\Forms\ElementInterface;
-use Phalcon\Tag;
 
 class ElementUiHelper implements InjectableInterface
 {
@@ -24,28 +24,6 @@ class ElementUiHelper implements InjectableInterface
     public function __construct(LanguageRepository $languageRepository)
     {
         $this->languageRepository = $languageRepository;
-    }
-
-    private function generatePreview(ElementInterface $element, string $key = null): string
-    {
-        if (get_class($element) === File::class) :
-            $file = null;
-            $value = $element->getValue();
-
-            if (is_string($value)) :
-                $file = FileUtil::getTag($value);
-            elseif (is_array($value)) :
-                if (isset($value[$key])) :
-                    $file = FileUtil::getTag($value[$key]);
-                endif;
-            endif;
-
-            if ($file !== null) :
-                return '<div class="file-preview">'.$file.'</div>';
-            endif;
-        endif;
-
-        return '';
     }
 
     public function renderElement(ElementInterface $element, AbstractForm $form): string
@@ -110,12 +88,35 @@ class ElementUiHelper implements InjectableInterface
         return $return;
     }
 
+    private function generatePreview(ElementInterface $element, string $key = null): string
+    {
+        if (get_class($element) === File::class) :
+            $file = null;
+            $value = $element->getValue();
+
+            if (is_string($value)) :
+                $file = FileUtil::getTag($value);
+            elseif (is_array($value)) :
+                if (isset($value[$key])) :
+                    $file = FileUtil::getTag($value[$key]);
+                endif;
+            endif;
+
+            if ($file !== null) :
+                return '<div class="file-preview">' . $file . '</div>';
+            endif;
+        endif;
+
+        return '';
+    }
+
     private function renderSingleLanguageElement(
         ElementInterface $element,
         AbstractForm $form,
         $entity,
         string $inputClass
-    ): string {
+    ): string
+    {
         $return = '';
 
         if ($element->getAttribute('multiple')) :
@@ -131,7 +132,7 @@ class ElementUiHelper implements InjectableInterface
                 $value = implode(',', $element->getValue());
             endif;
             $return .= Tag::hiddenField([
-                $element->getAttribute('id').'_select2Sortable',
+                $element->getAttribute('id') . '_select2Sortable',
                 'value' => $value,
             ]);
         endif;

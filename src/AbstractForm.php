@@ -2,8 +2,12 @@
 
 namespace VitesseCms\Form;
 
-use VitesseCms\Core\AbstractController;
-use VitesseCms\Form\Factories\ElementFactory;
+use Phalcon\Forms\Element\Check;
+use Phalcon\Forms\Element\Hidden;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Submit;
+use Phalcon\Forms\Form;
+use Phalcon\Http\Request;
 use VitesseCms\Form\Helpers\AddElementHelper;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Helpers\ElementUiHelper;
@@ -14,13 +18,6 @@ use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Language\Repositories\LanguageRepository;
 use VitesseCms\Media\Enums\AssetsEnum;
 use VitesseCms\User\Models\PermissionRole;
-use Phalcon\Filter;
-use Phalcon\Forms\Element\Check;
-use Phalcon\Forms\Element\Hidden;
-use Phalcon\Forms\Element\Select;
-use Phalcon\Forms\Element\Submit;
-use Phalcon\Forms\Form;
-use Phalcon\Http\Request;
 
 abstract class AbstractForm extends Form implements AbstractFormInterface
 {
@@ -68,13 +65,6 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->formTemplate = 'form';
         $this->labelAsPlaceholder = false;
         $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
-    }
-
-    public function addCsrf(): AbstractFormInterface
-    {
-        $this->add((new Hidden('csrf'))->setAttribute('template', 'csrf'));
-
-        return $this;
     }
 
     public function addSubmitButton(string $label): AbstractFormInterface
@@ -188,16 +178,6 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
-    {
-        if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
-            $this->assets->load(AssetsEnum::SELECT2);
-        endif;
-        $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));
-
-        return $this;
-    }
-
     public function addAcl(string $label, string $name): AbstractFormInterface
     {
         $this->assets->load('select2');
@@ -209,6 +189,16 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                 ->setOptions(ElementHelper::arrayToSelectOptions(PermissionRole::findAll())
                 )
         );
+
+        return $this;
+    }
+
+    public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
+    {
+        if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
+            $this->assets->load(AssetsEnum::SELECT2);
+        endif;
+        $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));
 
         return $this;
     }
@@ -419,24 +409,11 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return str_replace('[multiple]', '[]', $form);
     }
 
-    public function getCsrf(): string
+    public function addCsrf(): AbstractFormInterface
     {
-        return $this->security->getToken();
-    }
+        $this->add((new Hidden('csrf'))->setAttribute('template', 'csrf'));
 
-    public function validate(): bool
-    {
-        if (!$this->isValid($this->request->getPost())) {
-            $messages = $this->getMessages();
-
-            foreach ($messages as $message) {
-                $this->flash->setError((string)$message);
-            }
-
-            return false;
-        }
-
-        return true;
+        return $this;
     }
 
     public function getColumns(string $type, $columnType = 'col'): string
@@ -461,6 +438,47 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             '',
             implode(' ', $colClasses)
         );
+    }
+
+    public function getLabelAsPlaceholder(): bool
+    {
+        return $this->labelAsPlaceholder;
+    }
+
+    public function setLabelAsPlaceholder(bool $labelAsPlaceholder): AbstractFormInterface
+    {
+        $this->labelAsPlaceholder = $labelAsPlaceholder;
+
+        return $this;
+    }
+
+    public function getCsrf(): string
+    {
+        return $this->security->getToken();
+    }
+
+    public function validate(): bool
+    {
+        if (!$this->isValid($this->request->getPost())) {
+            $messages = $this->getMessages();
+
+            foreach ($messages as $message) {
+                $this->flash->setError((string)$message);
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isValid($data = null, $entity = null)
+    {
+        if ($this->request->hasFiles() === true) :
+            $data = array_merge($data, $_FILES);
+        endif;
+
+        return parent::isValid($data, $entity);
     }
 
     public function setColumn(int $column, string $type, array $screens): AbstractFormInterface
@@ -493,13 +511,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function isValid($data = null, $entity = null)
+    public function getFormTemplate(): string
     {
-        if ($this->request->hasFiles() === true) :
-            $data = array_merge($data, $_FILES);
-        endif;
-
-        return parent::isValid($data, $entity);
+        return $this->formTemplate;
     }
 
     public function setFormTemplate(string $template): AbstractFormInterface
@@ -507,22 +521,5 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->formTemplate = $template;
 
         return $this;
-    }
-
-    public function getFormTemplate(): string
-    {
-        return $this->formTemplate;
-    }
-
-    public function setLabelAsPlaceholder(bool $labelAsPlaceholder): AbstractFormInterface
-    {
-        $this->labelAsPlaceholder = $labelAsPlaceholder;
-
-        return $this;
-    }
-
-    public function getLabelAsPlaceholder(): bool
-    {
-        return $this->labelAsPlaceholder;
     }
 }

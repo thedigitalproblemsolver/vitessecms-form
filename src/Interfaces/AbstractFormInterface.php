@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form\Interfaces;
 
-use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Form\Helpers\AddElementHelper;
@@ -64,7 +63,7 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function getColumns(string $type, $columnType = 'col'): string;
 
-    public function setColumn(Int $column, string $type, array $screens): AbstractFormInterface;
+    public function setColumn(int $column, string $type, array $screens): AbstractFormInterface;
 
     public function setAjaxFunction(string $function): AbstractFormInterface;
 

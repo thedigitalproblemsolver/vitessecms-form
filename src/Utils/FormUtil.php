@@ -2,25 +2,26 @@
 
 namespace VitesseCms\Form\Utils;
 
-use VitesseCms\Form\AbstractForm;
 use Phalcon\Forms\ElementInterface;
+use VitesseCms\Form\AbstractForm;
 
 class FormUtil
 {
-    public static function renderInputTemplate(ElementInterface $element, ?string $short, AbstractForm $form): string {
+    public static function renderInputTemplate(ElementInterface $element, ?string $short, AbstractForm $form): string
+    {
         if ($element->getAttribute('template') === 'csrf') :
             return (string)$element;
         endif;
 
         $params = [
-            'elementId'              => $element->getAttribute('id'),
-            'elementLabel'           => $element->getLabel(),
-            'elementName'            => $element->getName(),
-            'elementDefault'         => $element->getDefault(),
-            'elementValue'           => false,
+            'elementId' => $element->getAttribute('id'),
+            'elementLabel' => $element->getLabel(),
+            'elementName' => $element->getName(),
+            'elementDefault' => $element->getDefault(),
+            'elementValue' => false,
             'formLabelAsPlaceholder' => $form->getLabelAsPlaceholder(),
-            'short'                  => $short,
-            'attributes'             => $element->getAttributes(),
+            'short' => $short,
+            'attributes' => $element->getAttributes(),
         ];
 
         if ($short === null) :
@@ -43,7 +44,7 @@ class FormUtil
 
         return $form->view->renderTemplate(
             $element->getAttribute('template'),
-            $form->configuration->getCoreTemplateDir().'views/partials/form/'.$form->getFormTemplate(),
+            $form->configuration->getCoreTemplateDir() . 'views/partials/form/' . $form->getFormTemplate(),
             $params
         );
     }

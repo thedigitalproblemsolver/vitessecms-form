@@ -2,8 +2,8 @@
 
 namespace VitesseCms\Form\Utils;
 
-use VitesseCms\Core\Interfaces\InjectableInterface;
 use Phalcon\Forms\ElementInterface;
+use VitesseCms\Core\Interfaces\InjectableInterface;
 
 class ElementUiUtil implements InjectableInterface
 {

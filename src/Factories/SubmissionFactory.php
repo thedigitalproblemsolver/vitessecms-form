@@ -2,9 +2,9 @@
 
 namespace VitesseCms\Form\Factories;
 
+use Phalcon\Di;
 use VitesseCms\Form\Models\Submission;
 use VitesseCms\Language\Models\Language;
-use Phalcon\Di;
 
 class SubmissionFactory
 {
@@ -14,9 +14,9 @@ class SubmissionFactory
         $submission->set('sourceUri', $_SERVER['HTTP_REFERER']);
         $submission->set('ipAddress', $_SERVER['REMOTE_ADDR']);
         Language::setFindValue('short', Di::getDefault()->get('configuration')->getLanguageShort());
-        $submission->set('language', Language::findFirst() );
+        $submission->set('language', Language::findFirst());
 
-        if(Di::getDefault()->get('user')->loggedIn()) :
+        if (Di::getDefault()->get('user')->loggedIn()) :
             $submission->set('user', Di::getDefault()->get('user'));
         endif;
 

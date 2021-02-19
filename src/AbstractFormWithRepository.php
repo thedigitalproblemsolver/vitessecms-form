@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form;
 
-use VitesseCms\Database\Interfaces\BaseCollectionInterface;
 use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 use VitesseCms\Form\Interfaces\FormWithRepositoryInterface;
 
@@ -17,7 +16,8 @@ abstract class AbstractFormWithRepository extends AbstractForm implements FormWi
         return $this;
     }
 
-    public function setEntity($entity) {
+    public function setEntity($entity)
+    {
         $this->_entity = $entity;
     }
 }

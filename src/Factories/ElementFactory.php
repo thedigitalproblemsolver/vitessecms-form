@@ -2,11 +2,6 @@
 
 namespace VitesseCms\Form\Factories;
 
-use Phalcon\Validation\Validator\PresenceOf;
-use VitesseCms\Database\AbstractCollection;
-use VitesseCms\Form\Helpers\ElementHelper;
-use VitesseCms\Form\Models\Attributes;
-use VitesseCms\Form\Utils\ElementUiUtil;
 use Phalcon\Di;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\Element\Check;
@@ -22,6 +17,11 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Validation\Validator\File as FileValidator;
+use Phalcon\Validation\Validator\PresenceOf;
+use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Form\Helpers\ElementHelper;
+use VitesseCms\Form\Models\Attributes;
+use VitesseCms\Form\Utils\ElementUiUtil;
 use VitesseCms\Language\Helpers\LanguageHelper;
 use VitesseCms\Language\Services\LanguageService;
 
@@ -84,6 +84,31 @@ class ElementFactory
         endif;
 
         return $element;
+    }
+
+    public function parseDefaults(Element $element, string $label, string $template = ''): void
+    {
+        ElementHelper::setDefaults($element, $label);
+        $this->setRequired($element);
+        ElementHelper::setValue($element);
+
+        if (!empty($template)) :
+            $element = ElementUiUtil::setTemplate($element, $template);
+        endif;
+    }
+
+    public function setRequired(ElementInterface $element): void
+    {
+        if ($element->getAttribute('required')) :
+            $element->addValidators([
+                new PresenceOf([
+                    'message' => $this->language->get(
+                        'FORM_REQUIRED_MESSAGE',
+                        ['"' . $element->getLabel() . '"']
+                    ),
+                ]),
+            ]);
+        endif;
     }
 
     public function email(string $label, string $name, array $attributes = []): Email
@@ -283,30 +308,5 @@ class ElementFactory
         $this->parseDefaults($element, $label, 'url');
 
         return $element;
-    }
-
-    public function parseDefaults(Element $element, string $label, string $template = ''): void
-    {
-        ElementHelper::setDefaults($element, $label);
-        $this->setRequired($element);
-        ElementHelper::setValue($element);
-
-        if (!empty($template)) :
-            $element = ElementUiUtil::setTemplate($element, $template);
-        endif;
-    }
-
-    public function setRequired(ElementInterface $element): void
-    {
-        if ($element->getAttribute('required')) :
-            $element->addValidators([
-                new PresenceOf([
-                    'message' => $this->language->get(
-                        'FORM_REQUIRED_MESSAGE',
-                        ['"'.$element->getLabel().'"']
-                    ),
-                ]),
-            ]);
-        endif;
     }
 }
