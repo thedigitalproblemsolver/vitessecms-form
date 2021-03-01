@@ -15,11 +15,7 @@ class AdminsubmissionControllerListener
         $controller->addRenderParam('adminEditForm', SubmissionHelper::getHtmlAdminTable($submission, true));
     }
 
-    public function adminListFilter(
-        Event $event,
-        AdminsubmissionController $controller,
-        AdminlistFormInterface $form
-    ): string
+    public function adminListFilter(Event $event, AdminsubmissionController $controller, AdminlistFormInterface $form): string
     {
         $form->addNameField($form);
         $form->addPublishedField($form);
