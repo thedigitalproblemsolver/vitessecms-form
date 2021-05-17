@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Form\Controllers;
 
-use VitesseCms\Block\Models\BlockFormBuilder;
+use VitesseCms\Block\Models\FormBuilder;
 use VitesseCms\Communication\Helpers\NewsletterHelper;
 use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\Utils\DirectoryUtil;
@@ -113,7 +113,7 @@ class IndexController extends AbstractController implements RepositoriesInterfac
     }
 
     //TODO move to communication package and listener
-    protected function parseNewsletters(BlockFormBuilder $blockFormBuilder): void
+    protected function parseNewsletters(FormBuilder $blockFormBuilder): void
     {
         $newsletters = $blockFormBuilder->getNewsletters();
         if ($this->request->hasPost('email')) :

@@ -3,6 +3,7 @@
 namespace VitesseCms\Form\Listeners;
 
 use Phalcon\Events\Manager;
+use VitesseCms\Form\Blocks\FormBuilder;
 use VitesseCms\Form\Controllers\AdminsubmissionController;
 
 class InitiateAdminListeners
@@ -11,5 +12,6 @@ class InitiateAdminListeners
     {
         $eventsManager->attach('adminMenu', new AdminMenuListener());
         $eventsManager->attach(AdminsubmissionController::class, new AdminsubmissionControllerListener());
+        $eventsManager->attach( FormBuilder::class, new BlockFormBuilderListener());
     }
 }
