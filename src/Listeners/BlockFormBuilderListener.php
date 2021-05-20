@@ -62,4 +62,11 @@ class  BlockFormBuilderListener {
             (new Attributes())->setRequired(true)->setMultilang(true)
         )->addToggle('use reCaptcha', 'useRecaptcha');
     }
+
+    public function loadAssets(Event $event, Block $block): void
+    {
+        if ($block->_('useRecaptcha')) :
+            $block->getDI()->get('assets')->loadRecaptcha();
+        endif;
+    }
 }

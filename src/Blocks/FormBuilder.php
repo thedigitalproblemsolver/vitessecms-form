@@ -95,13 +95,6 @@ class FormBuilder extends AbstractBlockModel
         endif;
     }
 
-    public function loadAssets(Block $block): void
-    {
-        if ($block->_('useRecaptcha')) :
-            $this->di->assets->load(AssetsEnum::RECAPTCHA);
-        endif;
-    }
-
     public function isUseRecaptcha(): bool
     {
         return $this->useRecaptcha;
