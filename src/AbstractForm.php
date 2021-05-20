@@ -180,7 +180,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addAcl(string $label, string $name): AbstractFormInterface
     {
-        $this->assets->load('select2');
+        $this->assets->loadSelect2();
         $this->addDropdown(
             $label,
             $name,
@@ -196,7 +196,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
     {
         if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
-            $this->assets->load(AssetsEnum::SELECT2);
+            $this->assets->loadSelect2();
         endif;
         $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));
 
