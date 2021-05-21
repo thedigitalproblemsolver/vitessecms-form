@@ -7,6 +7,7 @@ use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Database\Models\FindValue;
 use VitesseCms\Database\Models\FindValueIterator;
+use VitesseCms\Form\Blocks\FormBuilder;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Media\Enums\AssetsEnum;
@@ -63,7 +64,7 @@ class  BlockFormBuilderListener {
         )->addToggle('use reCaptcha', 'useRecaptcha');
     }
 
-    public function loadAssets(Event $event, Block $block): void
+    public function loadAssets(Event $event, FormBuilder $formBuilder, Block $block): void
     {
         if ($block->_('useRecaptcha')) :
             $block->getDI()->get('assets')->loadRecaptcha();
