@@ -24,6 +24,9 @@ use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Form\Utils\ElementUiUtil;
 use VitesseCms\Language\Helpers\LanguageHelper;
 use VitesseCms\Language\Services\LanguageService;
+use function count;
+use function is_object;
+use function is_string;
 
 class ElementFactory
 {
@@ -211,7 +214,7 @@ class ElementFactory
             ];
         endif;
 
-        if (\is_string($options)) :
+        if (is_string($options)) :
             $options::addFindOrder('name');
             $items = $options::Findall();
             /** @var AbstractCollection $item */
@@ -223,9 +226,9 @@ class ElementFactory
                 ];
             endforeach;
         elseif (
-            \count($options) > 0
+            count($options) > 0
             && isset($options[0])
-            && \is_object($options[0])
+            && is_object($options[0])
             && substr_count(get_class($options[0]), 'Models') > 0
         ) :
             /** @var AbstractCollection $option */

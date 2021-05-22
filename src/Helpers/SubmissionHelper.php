@@ -44,7 +44,7 @@ class SubmissionHelper
                 $table .= '<tr>
                     <td>' . $name . '</td>
                     <td width="15px"></td>
-                    <td>' . self::parseValue($submission->_($property->name), $linkify) . '</td>
+                    <td>' . self::parseValue($submission->_($property->name)??'', $linkify) . '</td>
                 </tr>';
             endif;
         endforeach;
