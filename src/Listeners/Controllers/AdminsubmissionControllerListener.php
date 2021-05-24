@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Form\Listeners;
+namespace VitesseCms\Form\Listeners\Controllers;
 
 use Phalcon\Events\Event;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
