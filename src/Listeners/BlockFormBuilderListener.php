@@ -42,7 +42,7 @@ class  BlockFormBuilderListener {
             (new Attributes())
                 ->setRequired(true)
                 ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $block->getDI()->get('repositories')->datagroup->findAll(new FindValueIterator(
+                    $block->getDi()->repositories->datagroup->findAll(new FindValueIterator(
                         [new FindValue('component', 'form')]
                     ))
                 ))
@@ -53,7 +53,7 @@ class  BlockFormBuilderListener {
                 ->setMultilang(true)
                 ->setMultiple(true)
                 ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $block->getDI()->get('repositories')->newsletter->findAll(new FindValueIterator(
+                    $block->getDi()->repositories->newsletter->findAll(new FindValueIterator(
                         [new FindValue('parentId', null)]
                     ))))
                 ->setInputClass(AssetsEnum::SELECT2)
@@ -66,8 +66,8 @@ class  BlockFormBuilderListener {
 
     public function loadAssets(Event $event, FormBuilder $formBuilder, Block $block): void
     {
-        if ($block->_('useRecaptcha')) :
-            $block->getDI()->get('assets')->loadRecaptcha();
+        if ($block->getBool(('useRecaptcha'))) :
+            $block->getDi()->assets->loadRecaptcha();
         endif;
     }
 }
