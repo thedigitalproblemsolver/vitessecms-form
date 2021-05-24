@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Form\Listeners;
+namespace VitesseCms\Form\Listeners\Blocks;
 
 use Phalcon\Events\Event;
+use VitesseCms\Admin\Repositories\DatagroupRepository;
 use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Database\Models\FindValue;
 use VitesseCms\Database\Models\FindValueIterator;
 use VitesseCms\Form\Blocks\FormBuilder;
@@ -12,8 +14,27 @@ use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Media\Enums\AssetsEnum;
 
-class  BlockFormBuilderListener {
-    public function buildBlockForm(Event $event, BlockForm $form, Block $block): void
+class  BlockFormBuilderListener
+{
+    /**
+     * @var DatagroupRepository
+     */
+    private $datagroupRepository;
+
+    /**
+     * @var NewsletterRepository
+     */
+    private $newsletterRepository;
+
+    public function __construct(
+        DatagroupRepository $datagroupRepository,
+        NewsletterRepository $newsletterRepository
+    ) {
+        $this->datagroupRepository = $datagroupRepository;
+        $this->newsletterRepository = $newsletterRepository;
+    }
+
+    public function buildBlockForm(Event $event, BlockForm $form): void
     {
         $form->addEditor(
             '%ADMIN_INTROTEXT%',
@@ -42,10 +63,11 @@ class  BlockFormBuilderListener {
             (new Attributes())
                 ->setRequired(true)
                 ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $block->getDi()->repositories->datagroup->findAll(new FindValueIterator(
+                    $this->datagroupRepository->findAll(new FindValueIterator(
                         [new FindValue('component', 'form')]
                     ))
                 ))
+            //TODO seperate this field to own module
         )->addDropdown(
             'Add to newsletter',
             'newsletters',
@@ -53,7 +75,7 @@ class  BlockFormBuilderListener {
                 ->setMultilang(true)
                 ->setMultiple(true)
                 ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $block->getDi()->repositories->newsletter->findAll(new FindValueIterator(
+                    $this->newsletterRepository->findAll(new FindValueIterator(
                         [new FindValue('parentId', null)]
                     ))))
                 ->setInputClass(AssetsEnum::SELECT2)
