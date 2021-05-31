@@ -12,7 +12,6 @@ use VitesseCms\Core\Utils\FileUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Utils\FormUtil;
 use VitesseCms\Language\Repositories\LanguageRepository;
-use VitesseCms\Media\Enums\AssetsEnum;
 
 class ElementUiHelper implements InjectableInterface
 {
@@ -32,7 +31,7 @@ class ElementUiHelper implements InjectableInterface
         $entity = $form->getEntity();
 
         if (substr_count($inputClass, 'editor')) :
-            $form->assets->load(AssetsEnum::EDITOR);
+            $form->assets->loadEditor();
         endif;
 
         if (empty($element->getAttribute('template'))) :
