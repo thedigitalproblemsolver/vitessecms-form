@@ -8,7 +8,6 @@ use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Utils\UiUtils;
 use VitesseCms\Form\Forms\BaseForm;
-use VitesseCms\Media\Enums\AssetsEnum;
 
 class FormBuilder extends AbstractBlockModel
 {
