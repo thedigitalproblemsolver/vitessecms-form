@@ -19,14 +19,14 @@
   },
   "require": {
     "vitessecms/filemanager": "~0.2.1",
-    "vitessecms/language": "~0.2.1",
-    "vitessecms/media": "~0.2.3",
-    "vitessecms/user": "~0.2.2",
-    "vitessecms/core": "~0.2.6",
+    "vitessecms/language": "~0.2.2",
+    "vitessecms/media": "~0.2.4",
+    "vitessecms/user": "~0.2.3",
+    "vitessecms/core": "~0.2.7",
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "~0.2.10",
     "vitessecms/datagroup": "~0.2.7",
-    "vitessecms/block": "~0.2.8",
+    "vitessecms/block": "~0.2.10",
     "vitessecms/communication": "~0.2.7"
   }
 }
