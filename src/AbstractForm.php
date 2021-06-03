@@ -8,15 +8,11 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Form;
 use Phalcon\Http\Request;
-use VitesseCms\Form\Helpers\AddElementHelper;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Helpers\ElementUiHelper;
-use VitesseCms\Form\Helpers\FormElementHelper;
 use VitesseCms\Form\Interfaces\AbstractFormInterface;
-use VitesseCms\Form\Models\Attribute;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Language\Repositories\LanguageRepository;
-use VitesseCms\Media\Enums\AssetsEnum;
 use VitesseCms\User\Models\PermissionRole;
 
 abstract class AbstractForm extends Form implements AbstractFormInterface
@@ -95,7 +91,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
         $attributes->setTemplate('checkbox_toggle');
 
-        $this->assets->load(AssetsEnum::BOOTSTRAP_TOGGLE);
+        $this->assets->loadBootstrapToggle();
         $this->add($this->form->elementFactory->checkbox($label, $name, (array)$attributes));
 
         return $this;
@@ -195,7 +191,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
     {
-        if ($attributes->getInputClass() === AssetsEnum::SELECT2) :
+        if ($attributes->getInputClass() === 'select2') :
             $this->assets->loadSelect2();
         endif;
         $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));

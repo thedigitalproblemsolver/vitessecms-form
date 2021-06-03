@@ -12,7 +12,6 @@ use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use VitesseCms\Form\Blocks\FormBuilder;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
-use VitesseCms\Media\Enums\AssetsEnum;
 
 class  BlockFormBuilderListener
 {
@@ -78,7 +77,7 @@ class  BlockFormBuilderListener
                     $this->newsletterRepository->findAll(new FindValueIterator(
                         [new FindValue('parentId', null)]
                     ))))
-                ->setInputClass(AssetsEnum::SELECT2)
+                ->setInputClass('select2')
         )->addText(
             '%ADMIN_FORM_SUBMIT_BUTTON_TEXT%',
             'submitText',
