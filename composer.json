@@ -20,13 +20,13 @@
   "require": {
     "vitessecms/filemanager": "~0.2.2",
     "vitessecms/language": "~0.2.2",
-    "vitessecms/media": "~0.2.5",
+    "vitessecms/media": "~0.2.6",
     "vitessecms/user": "~0.2.3",
-    "vitessecms/core": "~0.2.8",
+    "vitessecms/core": "~0.2.9",
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "~0.2.11",
-    "vitessecms/datagroup": "~0.2.8",
-    "vitessecms/block": "~0.2.10",
+    "vitessecms/datagroup": "~0.2.9",
+    "vitessecms/block": "~0.2.11",
     "vitessecms/communication": "~0.2.8"
   }
 }
