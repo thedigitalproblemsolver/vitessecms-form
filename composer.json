@@ -21,12 +21,12 @@
     "vitessecms/media": "~0.2.7",
     "vitessecms/language": "~0.2.3",
     "vitessecms/user": "~0.2.5",
-    "vitessecms/core": "~0.2.15",
+    "vitessecms/core": "~0.2.16",
     "misd/linkify": "^1.1",
-    "vitessecms/datafield": "~0.2.12",
+    "vitessecms/datafield": "~0.2.13",
     "vitessecms/datagroup": "~0.2.10",
-    "vitessecms/block": "~0.2.15",
+    "vitessecms/block": "~0.2.16",
     "vitessecms/communication": "~0.2.12",
-    "vitessecms/database": "~0.2.4"
+    "vitessecms/database": "~0.2.5"
   }
 }
