@@ -40,13 +40,13 @@ class ElementFactory
         $this->language = $languageService;
     }
 
-    public function submitButton(string $label): ElementInterface
+    public function submitButton(string $label, array $attributes = []): ElementInterface
     {
-        return new Submit($label, [
-            'inputClass' => 'btn btn-success btn-block',
-            'template' => 'button',
-            'buttonType' => 'submit'
-        ]);
+        $attributes['inputClass'] = 'btn btn-success btn-block';
+        $attributes['template'] = 'button';
+        $attributes['buttonType'] = 'submit';
+
+        return new Submit($label, $attributes);
     }
 
     public function emptyButton(string $label): ElementInterface

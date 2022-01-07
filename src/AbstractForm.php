@@ -63,9 +63,13 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
     }
 
-    public function addSubmitButton(string $label): AbstractFormInterface
+    public function addSubmitButton(string $label, ?Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->submitButton($label));
+        if ($attributes === null) :
+            $attributes = new Attributes();
+        endif;
+
+        $this->add($this->form->elementFactory->submitButton($label,(array)$attributes));
 
         return $this;
     }

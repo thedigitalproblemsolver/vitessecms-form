@@ -91,6 +91,11 @@ class Attributes
      */
     public $noEmptyText;
 
+    /**
+     * @var string
+     */
+    public $elementId;
+
     public function __construct()
     {
         $this->inputClass = '';
@@ -103,6 +108,7 @@ class Attributes
         $this->filemanager = false;
         $this->checked = false;
         $this->allowedTypes = [];
+        $this->elementId = null;
     }
 
     public function setInputType(string $inputType): Attributes
@@ -236,6 +242,13 @@ class Attributes
     public function setNoEmptyText(bool $noEmptyText = true): Attributes
     {
         $this->noEmptyText = $noEmptyText;
+
+        return $this;
+    }
+
+    public function setElementId(?string $elementId): Attributes
+    {
+        $this->elementId = $elementId;
 
         return $this;
     }
