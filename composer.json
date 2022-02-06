@@ -25,7 +25,7 @@
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "~0.2.13",
     "vitessecms/datagroup": "~0.2.10",
-    "vitessecms/block": "~0.2.18",
+    "vitessecms/block": "~0.2.19",
     "vitessecms/communication": "~0.2.12",
     "vitessecms/database": "~0.2.5"
   }
