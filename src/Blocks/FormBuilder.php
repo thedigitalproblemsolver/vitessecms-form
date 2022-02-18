@@ -8,6 +8,8 @@ use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Utils\UiUtils;
 use VitesseCms\Form\Forms\BaseForm;
+use VitesseCms\Mustache\DTO\RenderTemplateDTO;
+use VitesseCms\Mustache\Enum\ViewEnum;
 
 class FormBuilder extends AbstractBlockModel
 {
@@ -75,14 +77,20 @@ class FormBuilder extends AbstractBlockModel
                 $datagroup->buildItemForm($form);
                 $form->addHidden('block', (string) $block->getId());
 
+                if($block->getBool('useRecaptcha')):
+                    $form->addHtml($form->eventsManager->fire(ViewEnum::RENDER_TEMPLATE_EVENT,new RenderTemplateDTO(
+                        'recaptcha',
+                        'views/partials/form/form'
+                        ),
+                        $this->di->configuration->getCoreTemplateDir()
+                    ));
+                endif;
+
                 $submitText = 'Submit';
                 if ($block->_('submitText')) :
                     $submitText = $block->_('submitText');
                 endif;
                 $form->addSubmitButton($submitText);
-                //TODO handle recaptcha
-                //'useRecaptcha' => $block->_('useRecaptcha'),
-                //]);
 
                 $postUrl = 'form/index/submit/';
                 if ($block->_('postUrl')) :

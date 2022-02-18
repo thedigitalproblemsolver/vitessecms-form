@@ -87,6 +87,8 @@ class  BlockFormBuilderListener
 
     public function loadAssets(Event $event, FormBuilder $formBuilder, Block $block): void
     {
+        var_dump($block->getBool(('useRecaptcha'));
+        die();
         if ($block->getBool(('useRecaptcha'))) :
             $block->getDi()->assets->loadRecaptcha();
         endif;
