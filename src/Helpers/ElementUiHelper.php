@@ -50,6 +50,7 @@ class ElementUiHelper implements InjectableInterface
         $return = '';
         $element->setAttribute('multilang', null);
         $languageIterator = $this->languageRepository->findAll();
+        $element->setAttribute('defaultValue', $element->getValue());
 
         while ($languageIterator->valid()) :
             $language = $languageIterator->current();
@@ -111,9 +112,9 @@ class ElementUiHelper implements InjectableInterface
 
     private function renderSingleLanguageElement(
         ElementInterface $element,
-        AbstractForm $form,
-        $entity,
-        string $inputClass
+        AbstractForm     $form,
+                         $entity,
+        string           $inputClass
     ): string
     {
         $return = '';
