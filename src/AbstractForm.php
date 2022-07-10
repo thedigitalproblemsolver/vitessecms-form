@@ -69,7 +69,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $attributes = new Attributes();
         endif;
 
-        $this->add($this->form->elementFactory->submitButton($label,(array)$attributes));
+        $this->add($this->form->elementFactory->submitButton($label, (array)$attributes));
 
         return $this;
     }
@@ -261,8 +261,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function renderForm(
         string $action,
         string $formName = null,
-        bool $noAjax = false,
-        bool $newWindow = false
+        bool   $noAjax = false,
+        bool   $newWindow = false
     ): string
     {
         $extra = [];
