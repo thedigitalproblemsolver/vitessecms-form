@@ -132,6 +132,19 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
+    public function addColorPicker(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    {
+        if ($attributes === null) :
+            $attributes = new Attributes();
+        endif;
+        $attributes->setInputClass('colorpicker');
+        $this->assets->loadBootstrapColorPicker();
+
+        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+
+        return $this;
+    }
+
     public function addUrl(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->url($label, $name, (array)$attributes));
