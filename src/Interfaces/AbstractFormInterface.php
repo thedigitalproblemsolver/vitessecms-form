@@ -27,6 +27,8 @@ interface AbstractFormInterface extends InjectableInterface
 
     public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
+    public function addColorPicker(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
+
     public function addUrl(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
     public function addEditor(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
