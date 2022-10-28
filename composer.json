@@ -18,7 +18,7 @@
     }
   },
   "require": {
-    "vitessecms/media": "~0.2.11",
+    "vitessecms/media": "~0.2.12",
     "vitessecms/language": "~0.2.4",
     "vitessecms/user": "~0.2.10",
     "vitessecms/core": "~0.2.23",
