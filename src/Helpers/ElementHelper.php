@@ -3,7 +3,7 @@
 namespace VitesseCms\Form\Helpers;
 
 use ArrayIterator;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Filter;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Forms\Form;
@@ -67,7 +67,7 @@ class ElementHelper
     public static function arrayToSelectOptions(
         array $array,
         array $selected = [],
-        bool $nameWithParents = false
+        bool  $nameWithParents = false
     ): array
     {
         $selectedCheck = ObjectFactory::create();

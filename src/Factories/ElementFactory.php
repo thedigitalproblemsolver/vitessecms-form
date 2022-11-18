@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Form\Factories;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\Date;
