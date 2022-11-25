@@ -485,7 +485,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return true;
     }
 
-    public function isValid($data = null, $entity = null)
+    public function isValid($data = null, $entity = null, array $whitelist = []): bool
     {
         if ($this->request->hasFiles() === true) :
             $data = array_merge($data, $_FILES);

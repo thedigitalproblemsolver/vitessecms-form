@@ -4,8 +4,8 @@ namespace VitesseCms\Form\Helpers;
 
 use ArrayIterator;
 use Phalcon\Di\Di;
-use Phalcon\Filter;
-use Phalcon\Forms\ElementInterface;
+use Phalcon\Filter\FilterFactory;
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Form;
 use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Factories\ObjectFactory;
@@ -21,13 +21,11 @@ class ElementHelper
 
     public static function setDefaults(ElementInterface $element, $label): void
     {
+        $factory = new FilterFactory();
+        $locator = $factory->newInstance();
+
         $element->setLabel($label);
-        $element->setAttribute('id', (new Filter())
-            ->sanitize(
-                $element->getName(),
-                Filter::FILTER_ALPHANUM
-            )
-        );
+        $element->setAttribute('id', $locator->sanitize($element->getName(), 'alnum'));
     }
 
     public static function setValue(ElementInterface $element): void

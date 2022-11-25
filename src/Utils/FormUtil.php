@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Form\Utils;
 
-use Phalcon\Forms\ElementInterface;
+use Phalcon\Forms\Element\ElementInterface;
 use VitesseCms\Form\AbstractForm;
 
 class FormUtil
@@ -32,7 +32,7 @@ class FormUtil
             if ($short !== null) :
                 $params['elementValue'] = $element->getAttribute('defaultValue')[$short];
             else :
-                $params['elementValue'] = $element->getAttribute('defaultValue')[$form->configuration->getLanguageShort()]??'';
+                $params['elementValue'] = $element->getAttribute('defaultValue')[$form->configuration->getLanguageShort()] ?? '';
             endif;
         elseif (is_string($element->getAttribute('defaultValue'))):
             $params['elementValue'] = $element->getAttribute('defaultValue');

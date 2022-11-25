@@ -3,9 +3,11 @@
 namespace VitesseCms\Form\Factories;
 
 use Phalcon\Di\Di;
-use Phalcon\Forms\Element;
+use Phalcon\Filter\Validation\Validator\File as FileValidator;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\Date;
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\File;
 use Phalcon\Forms\Element\Hidden;
@@ -15,9 +17,6 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
-use Phalcon\Forms\ElementInterface;
-use Phalcon\Validation\Validator\File as FileValidator;
-use Phalcon\Validation\Validator\PresenceOf;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
@@ -89,7 +88,7 @@ class ElementFactory
         return $element;
     }
 
-    public function parseDefaults(Element $element, string $label, string $template = ''): void
+    public function parseDefaults(ElementInterface $element, string $label, string $template = ''): void
     {
         ElementHelper::setDefaults($element, $label);
         $this->setRequired($element);

@@ -2,10 +2,9 @@
 
 namespace VitesseCms\Form\Utils;
 
-use Phalcon\Forms\ElementInterface;
-use VitesseCms\Core\Interfaces\InjectableInterface;
+use Phalcon\Forms\Element\ElementInterface;
 
-class ElementUiUtil implements InjectableInterface
+class ElementUiUtil
 {
     public static function setTemplate(ElementInterface $element, string $template): ElementInterface
     {
