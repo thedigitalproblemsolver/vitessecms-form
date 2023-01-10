@@ -2,18 +2,17 @@
 
 namespace VitesseCms\Form\Helpers;
 
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Element\File;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Forms\ElementInterface;
 use Phalcon\Tag;
-use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Utils\FileUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Utils\FormUtil;
 use VitesseCms\Language\Repositories\LanguageRepository;
 
-class ElementUiHelper implements InjectableInterface
+class ElementUiHelper
 {
     /**
      * @var LanguageRepository

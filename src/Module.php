@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Form;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use VitesseCms\Block\Repositories\BlockFormBuilderRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Communication\Repositories\NewsletterRepository;
