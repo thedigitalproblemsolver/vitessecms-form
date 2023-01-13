@@ -2,11 +2,12 @@
 
 namespace VitesseCms\Form\Blocks;
 
+use Phalcon\Di\Di;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Utils\UiUtils;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Form\Forms\BaseForm;
 
 class FormBuilder extends AbstractBlockModel
@@ -36,9 +37,9 @@ class FormBuilder extends AbstractBlockModel
      */
     public $systemThankyou;
 
-    public function __construct(ViewService $view)
+    public function __construct(ViewService $view, Di $di)
     {
-        parent::__construct($view);
+        parent::__construct($view, $di);
 
         $this->useRecaptcha = false;
         $this->datagroup = '';
@@ -49,7 +50,7 @@ class FormBuilder extends AbstractBlockModel
     {
         parent::initialize();
 
-        if ($this->di->session->get('blockSubmittedId')) :
+        if ($this->di->get('session')->get('blockSubmittedId')) :
             $this->excludeFromCache = true;
         endif;
     }
@@ -58,9 +59,9 @@ class FormBuilder extends AbstractBlockModel
     {
         parent::parse($block);
 
-        if ($this->di->session->get('blockSubmittedId') === (string)$block->getId()) :
+        if ($this->di->get('session')->get('blockSubmittedId') === (string)$block->getId()) :
             $block->set('form', $block->_('pageThankyou'));
-            $this->di->session->set('blockSubmittedId', null);
+            $this->di->get('session')->set('blockSubmittedId', null);
         else :
             $datagroup = Datagroup::findById($block->_('datagroup'));
             if ($datagroup) :
@@ -73,7 +74,7 @@ class FormBuilder extends AbstractBlockModel
                 endif;
 
                 $datagroup->buildItemForm($form);
-                $form->addHidden('block', (string) $block->getId());
+                $form->addHidden('block', (string)$block->getId());
 
                 $submitText = 'Submit';
                 if ($block->_('submitText')) :

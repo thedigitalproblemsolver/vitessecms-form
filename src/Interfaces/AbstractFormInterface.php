@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Form\Interfaces;
 
-use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Form\Helpers\AddElementHelper;
 use VitesseCms\Form\Helpers\FormElementHelper;
@@ -13,7 +12,7 @@ use VitesseCms\Media\Services\AssetsService;
  * @property ViewService $view
  * @property AssetsService $assets
  */
-interface AbstractFormInterface extends InjectableInterface
+interface AbstractFormInterface
 {
     public function addSubmitButton(string $label): AbstractFormInterface;
 

@@ -2,11 +2,11 @@
 
 namespace VitesseCms\Form\Controllers;
 
-use VitesseCms\Block\Models\FormBuilder;
 use VitesseCms\Communication\Helpers\NewsletterHelper;
 use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\Utils\DirectoryUtil;
 use VitesseCms\Core\Utils\FileUtil;
+use VitesseCms\Form\Blocks\FormBuilder;
 use VitesseCms\Form\Factories\SubmissionFactory;
 use VitesseCms\Form\Forms\BaseForm;
 use VitesseCms\Form\Helpers\SubmissionHelper;

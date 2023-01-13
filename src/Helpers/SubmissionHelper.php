@@ -3,7 +3,7 @@
 namespace VitesseCms\Form\Helpers;
 
 use Misd\Linkify\Linkify;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use ReflectionObject;
 use ReflectionProperty;
 use VitesseCms\Communication\Repositories\NewsletterListRepository;
@@ -20,10 +20,29 @@ class SubmissionHelper
         return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_USER);
     }
 
+    public static function getHtmlAdminTable(
+        Submission $submission,
+        bool       $linkify = false
+    ): string
+    {
+        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_ADMIN, $linkify);
+    }
+
+    public static function bindFormPost(
+        Submission $submission,
+        array      $array
+    ): void
+    {
+        foreach ($array as $key => $value) :
+            $submission->addFieldname($key);
+            $submission->set($key, $value);
+        endforeach;
+    }
+
     protected static function buildHtmlTable(
         AbstractCollection $submission,
-        array $excludedFields,
-        bool $linkify = false
+        array              $excludedFields,
+        bool               $linkify = false
     ): string
     {
         $table = '<table class="table">';
@@ -44,7 +63,7 @@ class SubmissionHelper
                 $table .= '<tr>
                     <td>' . $name . '</td>
                     <td width="15px"></td>
-                    <td>' . self::parseValue($submission->_($property->name)??'', $linkify) . '</td>
+                    <td>' . self::parseValue($submission->_($property->name) ?? '', $linkify) . '</td>
                 </tr>';
             endif;
         endforeach;
@@ -52,6 +71,8 @@ class SubmissionHelper
 
         return $table;
     }
+
+    //TODO mpve to mustache
 
     protected static function parseValue($value, bool $linkify = false): string
     {
@@ -87,26 +108,5 @@ class SubmissionHelper
         endif;
 
         return $return;
-    }
-
-    public static function getHtmlAdminTable(
-        Submission $submission,
-        bool $linkify = false
-    ): string
-    {
-        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_ADMIN, $linkify);
-    }
-
-    //TODO mpve to mustache
-
-    public static function bindFormPost(
-        Submission $submission,
-        array $array
-    ): void
-    {
-        foreach ($array as $key => $value) :
-            $submission->addFieldname($key);
-            $submission->set($key, $value);
-        endforeach;
     }
 }
