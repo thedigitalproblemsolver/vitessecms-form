@@ -16,7 +16,7 @@ class SubmissionFactory
         Language::setFindValue('short', Di::getDefault()->get('configuration')->getLanguageShort());
         $submission->set('language', Language::findFirst());
 
-        if (Di::getDefault()->get('user')->loggedIn()) :
+        if (Di::getDefault()->get('user')->isLoggedIn()) :
             $submission->set('user', Di::getDefault()->get('user'));
         endif;
 
