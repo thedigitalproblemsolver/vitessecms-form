@@ -286,8 +286,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         endif;
 
         if (substr_count($action, 'http') === 0) :
-            $action = $this->view->getVar('BASE_URI') . $action;
+            $action = $this->url->getBaseUri() . $action;
         endif;
+
         $this->addCsrf();
 
         if ($this->ajaxFunction !== null) :
