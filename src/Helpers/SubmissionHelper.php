@@ -10,14 +10,45 @@ use VitesseCms\Communication\Repositories\NewsletterListRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Database\Utils\MongoUtil;
-use VitesseCms\Form\Enums\SubmissionEnum;
 use VitesseCms\Form\Models\Submission;
 
 class SubmissionHelper
 {
+    private const EXCLUDED_FIELDS_USER = [
+        'findValue',
+        'adminListName',
+        'adminListRowClass',
+        'adminListButtons',
+        'fieldNames',
+        '_id',
+        'published',
+        'block',
+        'name',
+        'createdAt',
+        'updatedOn',
+        'sourceUri',
+        'ipAddress',
+        'user',
+        'language',
+    ];
+
+    private const EXCLUDED_FIELDS_ADMIN = [
+        'findValue',
+        'adminListName',
+        'adminListRowClass',
+        'adminListButtons',
+        'fieldNames',
+        '_id',
+        'published',
+        'block',
+        'name',
+        'createdAt',
+        'updatedOn',
+    ];
+
     public static function getHtmlTable(AbstractCollection $submission): string
     {
-        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_USER);
+        return self::buildHtmlTable($submission, self::EXCLUDED_FIELDS_USER);
     }
 
     public static function getHtmlAdminTable(
@@ -25,7 +56,7 @@ class SubmissionHelper
         bool       $linkify = false
     ): string
     {
-        return self::buildHtmlTable($submission, SubmissionEnum::EXCLUDED_FIELDS_ADMIN, $linkify);
+        return self::buildHtmlTable($submission, self::EXCLUDED_FIELDS_ADMIN, $linkify);
     }
 
     public static function bindFormPost(
