@@ -17,7 +17,6 @@ class Module extends AbstractModule
     {
         parent::registerServices($di, 'Form');
         $di->setShared('repositories', new RepositoryCollection(
-            new BlockFormBuilderRepository(new BlockRepository()),
             new LanguageRepository(),
             new DatagroupRepository(),
             new NewsletterRepository()
