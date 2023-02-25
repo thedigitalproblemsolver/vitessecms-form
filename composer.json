@@ -23,7 +23,7 @@
     "vitessecms/media": "~0.4.3",
     "vitessecms/language": "~0.3.4",
     "vitessecms/user": "~0.4.1",
-    "vitessecms/core": "~0.4.6",
+    "vitessecms/core": "~0.4.7",
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "~0.3.3",
     "vitessecms/datagroup": "~0.4.1",
