@@ -20,14 +20,14 @@
   "require": {
     "php": ">=8.1",
     "ext-phalcon": "5.1.4",
-    "vitessecms/media": "~0.4.3",
+    "vitessecms/media": "~0.4.4",
     "vitessecms/language": "~0.3.4",
     "vitessecms/user": "~0.4.1",
     "vitessecms/core": "~0.4.7",
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "~0.3.3",
     "vitessecms/datagroup": "~0.4.1",
-    "vitessecms/block": "~0.4.3",
+    "vitessecms/block": "~0.4.4",
     "vitessecms/communication": "~0.4.1",
     "vitessecms/database": "~0.3.4"
   }
