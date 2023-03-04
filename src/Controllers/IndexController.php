@@ -6,8 +6,6 @@ use VitesseCms\Block\Enum\BlockFormBuilderEnum;
 use VitesseCms\Block\Repositories\BlockFormBuilderRepository;
 use VitesseCms\Communication\Helpers\NewsletterHelper;
 use VitesseCms\Configuration\Enums\ConfigurationEnum;
-use VitesseCms\Configuration\Services\ConfigService;
-use VitesseCms\Core\AbstractController;
 use VitesseCms\Core\AbstractControllerFrontend;
 use VitesseCms\Core\Services\FlashService;
 use VitesseCms\Core\Utils\DirectoryUtil;
@@ -33,7 +31,6 @@ class IndexController extends AbstractControllerFrontend
     private BlockFormBuilderRepository $blockFormBuilderRepository;
     private LanguageRepository $languageRepository;
     private DatagroupRepository $datagroupRepository;
-    private ConfigService $configService;
 
     public function onConstruct()
     {
@@ -42,7 +39,6 @@ class IndexController extends AbstractControllerFrontend
         $this->blockFormBuilderRepository = $this->eventsManager->fire(BlockFormBuilderEnum::LISTENER_GET_REPOSITORY->value, new stdClass());
         $this->languageRepository = $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new stdClass());
         $this->datagroupRepository = $this->eventsManager->fire(DatagroupEnum::GET_REPOSITORY->value, new stdClass());
-        $this->configService  = $this->eventsManager->fire(ConfigurationEnum::ATTACH_SERVICE_LISTENER->value, new stdClass());
     }
 
     public function submitAction(): void
@@ -80,7 +76,6 @@ class IndexController extends AbstractControllerFrontend
                                 FormEnum::AFTER_SUBMIT->value,
                                 new AfterSubmitDTO($submission, $blockFormBuilder)
                             );
-                            //$this->parseNewsletters($blockFormBuilder);
 
                             if ($submission->hasEmail()) :
                                 $this->viewService->set('systemEmailToAddress', $submission->getEmail());
@@ -140,19 +135,5 @@ class IndexController extends AbstractControllerFrontend
         endif;
 
         return $submission;
-    }
-
-    //TODO move to communication package and listener
-    protected function parseNewsletters(FormBuilder $blockFormBuilder): void
-    {
-        $newsletters = $blockFormBuilder->getNewsletters();
-        if ($this->request->hasPost('email')) :
-            foreach ($newsletters as $newsletterId) :
-                $newsletter = $this->repositories->newsletter->getById($newsletterId);
-                if ($newsletter) :
-                    NewsletterHelper::addMemberByEmail($newsletter, $this->request->get('email'));
-                endif;
-            endforeach;
-        endif;
     }
 }
