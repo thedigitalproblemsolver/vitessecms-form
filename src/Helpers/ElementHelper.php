@@ -123,7 +123,12 @@ class ElementHelper
 
     public static function enumToSelectOptions(array $unitEnum): array
     {
-        $options = [];
+        $options = [[
+            'value' => '',
+            'label' => '%FORM_CHOOSE_AN_OPTION%',
+            'selected' => false,
+        ]];
+        
         /**
          * @var int $key
          * @var SelectOptionEnumInterface $enum
