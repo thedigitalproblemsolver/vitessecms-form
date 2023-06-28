@@ -11,6 +11,7 @@ use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Factories\ObjectFactory;
 use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Form\Interfaces\SelectOptionEnumInterface;
 
 class ElementHelper
 {
@@ -116,6 +117,23 @@ class ElementHelper
                 ];
             endforeach;
         endif;
+
+        return $options;
+    }
+
+    public static function enumToSelectOptions(array $unitEnum): array
+    {
+        $options = [];
+        /**
+         * @var int $key
+         * @var SelectOptionEnumInterface $enum
+         */
+        foreach ($unitEnum as $key => $enum) :
+            $options[] = [
+                'value' => $enum->value,
+                'label' => $enum::getLabel($enum)
+            ];
+        endforeach;
 
         return $options;
     }
