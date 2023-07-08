@@ -2,8 +2,11 @@
 
 namespace VitesseCms\Form\Utils;
 
+use MongoDB\BSON\UTCDateTime;
 use Phalcon\Forms\Element\ElementInterface;
 use VitesseCms\Form\AbstractForm;
+use VitesseCms\Mustache\DTO\RenderPartialDTO;
+use VitesseCms\Mustache\Enum\ViewEnum;
 
 class FormUtil
 {
@@ -28,25 +31,25 @@ class FormUtil
             $params['elementValue'] = $element->getValue();
         endif;
 
-        if (is_array($element->getAttribute('defaultValue'))) :
-            if ($short !== null) :
-                $params['elementValue'] = $element->getAttribute('defaultValue')[$short];
-            else :
-                $params['elementValue'] = $element->getAttribute('defaultValue')[$form->configuration->getLanguageShort()] ?? '';
-            endif;
-        elseif (is_string($element->getAttribute('defaultValue'))):
+        if (is_array($element->getAttribute('defaultValue'))) {
+            $params['elementValue'] = match ($short) {
+                null => $element->getAttribute('defaultValue')[$form->configuration->getLanguageShort()] ?? '',
+                default => $element->getAttribute('defaultValue')[$short]
+            };
+        } elseif (is_string($element->getAttribute('defaultValue'))) {
             $params['elementValue'] = $element->getAttribute('defaultValue');
-        endif;
+        } elseif ($element->getAttribute('defaultValue') instanceof UTCDateTime) {
+            $params['elementValue'] = $element->getAttribute('defaultValue')->toDateTime()->format('Y-m-d');
+        }
 
         if (empty($element->getAttribute('id'))) :
             $params['elementId'] = uniqid('', false);
         endif;
 
-        return $form->view->renderTemplate(
-            $element->getAttribute('template'),
-            $form->configuration->getCoreTemplateDir() . 'views/partials/form/' . $form->getFormTemplate(),
+        return $form->eventsManager->fire(ViewEnum::RENDER_PARTIAL_EVENT, new RenderPartialDTO(
+            'form/' . $form->getFormTemplate() . '/' . $element->getAttribute('template'),
             $params
-        );
+        ));
     }
 
     public static function hasValidRecaptcha(array $post): bool

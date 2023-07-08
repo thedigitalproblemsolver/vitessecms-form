@@ -24,6 +24,7 @@
   "require": {
     "php": ">=8.1",
     "ext-phalcon": "5.1.4",
+    "ext-mongodb": "*",
     "vitessecms/media": "^1.1.1",
     "vitessecms/language": "^1.0.1",
     "vitessecms/user": "^1.0.0",

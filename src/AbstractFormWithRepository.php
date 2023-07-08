@@ -6,6 +6,9 @@ use Phalcon\Forms\Form;
 use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 use VitesseCms\Form\Interfaces\FormWithRepositoryInterface;
 
+/**
+ * @deprecated should get repositories by event
+ */
 abstract class AbstractFormWithRepository extends AbstractForm implements FormWithRepositoryInterface
 {
     protected BaseRepositoriesInterface $repositories;
