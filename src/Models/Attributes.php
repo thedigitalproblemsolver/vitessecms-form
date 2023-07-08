@@ -4,97 +4,26 @@ namespace VitesseCms\Form\Models;
 
 class Attributes
 {
-    /**
-     * @var string
-     */
-    public $inputType;
-
-    /**
-     * @var bool
-     */
-    public $required;
-
-    /**
-     * @var bool
-     */
-    public $readonly;
-
-    /**
-     * @var bool
-     */
-    public $disabled;
-
-    /**
-     * @var string
-     */
-    public $inputClass;
-
-    /**
-     * @var array
-     */
-    public $options;
-
-    /**
-     * @var bool
-     */
-    public $multiple;
-
-    /**
-     * @var bool
-     */
-    public $multilang;
-
-    /**
-     * @var string
-     */
-    public $template;
-
-    /**
-     * @var bool
-     */
-    public $filemanager;
-
-    /**
-     * @var bool
-     */
-    public $checked;
-
-    /**
-     * @var string
-     */
-    public $dataUrl;
-
-    /**
-     * @var int
-     */
-    public $min;
-
-    /**
-     * @var int
-     */
-    public $max;
-
+    public string $inputType;
+    public bool $required;
+    public bool $readonly;
+    public bool $disabled;
+    public string $inputClass;
+    public array $options;
+    public bool $multiple;
+    public bool $multilang;
+    public string $template;
+    public bool $filemanager;
+    public bool $checked;
+    public string $dataUrl;
+    public int $min;
+    public int $max;
     public $defaultValue;
-
-    /**
-     * @var float
-     */
-    public $step;
-
-    /**
-     * @var array
-     */
-    public $allowedTypes;
-
-    /**
-     * @var bool;
-     */
-    public $noEmptyText;
-
-    /**
-     * @var string
-     */
-    public $elementId;
+    public float $step;
+    public array $allowedTypes;
+    public bool $noEmptyText;
+    public ?string $elementId;
+    public ?string $placeholder;
 
     public function __construct()
     {
@@ -127,7 +56,7 @@ class Attributes
 
     public function getInputClass(): string
     {
-        return $this->inputClass;
+        return (string)$this->inputClass;
     }
 
     public function setInputClass(string $inputClass): Attributes
@@ -139,7 +68,7 @@ class Attributes
 
     public function getOptions(): array
     {
-        return $this->options;
+        return $this->options ?? [];
     }
 
     public function setOptions(array $options): Attributes
@@ -249,6 +178,13 @@ class Attributes
     public function setElementId(?string $elementId): Attributes
     {
         $this->elementId = $elementId;
+
+        return $this;
+    }
+
+    public function setPlaceholder(string $string): Attributes
+    {
+        $this->placeholder = $string;
 
         return $this;
     }
