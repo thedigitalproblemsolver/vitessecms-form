@@ -218,7 +218,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addHidden(string $name, ?string $value = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->hidden($name, ['value' => $value]));
+        $attributes = (new Attributes())->setDefaultValue($value);
+        $this->add($this->form->elementFactory->hidden($name, (array)$attributes));
 
         return $this;
     }
