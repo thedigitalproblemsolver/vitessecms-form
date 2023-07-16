@@ -218,7 +218,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addHidden(string $name, ?string $value = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->hidden($name, ['value' => $value]));
+        $attributes = (new Attributes())->setDefaultValue($value);
+        $this->add($this->form->elementFactory->hidden($name, (array)$attributes));
 
         return $this;
     }
@@ -462,6 +463,29 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function setLabelAsPlaceholder(bool $labelAsPlaceholder): AbstractFormInterface
     {
         $this->labelAsPlaceholder = $labelAsPlaceholder;
+
+        return $this;
+    }
+
+    public function bind(array $data, $entity = null, array $whitelist = []): Form
+    {
+        parent::bind($data, $entity, $whitelist);
+        if ($this->entity !== null) {
+            $parsed = [];
+            foreach ($this->getElements() as $key => $value) {
+                if (
+                    substr_count($key, '[') > 0 &&
+                    substr_count($key, ']') > 0 &&
+                    !in_array($key, $parsed)
+                ) {
+                    $field = explode('[', $key)[0];
+                    if (!isset($model->$field)) {
+                        $this->entity->set($field, $this->request->getPost($field));
+                    }
+                    $parsed[] = $key;
+                }
+            }
+        }
 
         return $this;
     }
