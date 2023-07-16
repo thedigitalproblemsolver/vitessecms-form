@@ -467,6 +467,29 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
+    public function bind(array $data, $entity = null, array $whitelist = []): Form
+    {
+        parent::bind($data, $entity, $whitelist);
+        if ($this->entity !== null) {
+            $parsed = [];
+            foreach ($this->getElements() as $key => $value) {
+                if (
+                    substr_count($key, '[') > 0 &&
+                    substr_count($key, ']') > 0 &&
+                    !in_array($key, $parsed)
+                ) {
+                    $field = explode('[', $key)[0];
+                    if (!isset($model->$field)) {
+                        $this->entity->set($field, $this->request->getPost($field));
+                    }
+                    $parsed[] = $key;
+                }
+            }
+        }
+
+        return $this;
+    }
+
     public function getCsrf(): string
     {
         return $this->security->getToken();
