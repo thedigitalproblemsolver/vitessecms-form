@@ -32,7 +32,7 @@
     "misd/linkify": "^1.1",
     "vitessecms/datafield": "^1.2.2",
     "vitessecms/datagroup": "^1.2.0",
-    "vitessecms/block": "^1.4.0",
+    "vitessecms/block": "^1.5.0",
     "vitessecms/communication": "^1.2.0",
     "vitessecms/database": "^1.0.1",
     "vitessecms/filemanager": "^1.0.1"
