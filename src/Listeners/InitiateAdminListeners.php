@@ -8,9 +8,12 @@ use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use VitesseCms\Form\Blocks\FormBuilder;
 use VitesseCms\Form\Controllers\AdminsubmissionController;
+use VitesseCms\Form\Enums\SubmissionEnum;
 use VitesseCms\Form\Listeners\Admin\AdminMenuListener;
 use VitesseCms\Form\Listeners\Blocks\BlockFormBuilderListener;
 use VitesseCms\Form\Listeners\Controllers\AdminsubmissionControllerListener;
+use VitesseCms\Form\Listeners\Models\SubmissionListener;
+use VitesseCms\Form\Repositories\SubmissionRepository;
 
 class InitiateAdminListeners implements InitiateListenersInterface
 {
@@ -22,5 +25,6 @@ class InitiateAdminListeners implements InitiateListenersInterface
             new DatagroupRepository(),
             new NewsletterRepository()
         ));
+        $di->eventsManager->attach(SubmissionEnum::LISTENER->value, new SubmissionListener(new SubmissionRepository()));
     }
 }
