@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Controllers;
 
-use VitesseCms\Admin\AbstractAdminController;
+use ArrayIterator;
+use stdClass;
 use VitesseCms\Admin\Interfaces\AdminModelDeletableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelListInterface;
 use VitesseCms\Admin\Interfaces\AdminModelPublishableInterface;
@@ -27,12 +30,11 @@ class AdminsubmissionController extends AbstractControllerAdmin implements
     AdminModelDeletableInterface,
     AdminModelReadOnlyInterface
 {
-    use TraitAdminModelPublishable,
-        TraitAdminModelList,
-        TraitAdminModelSave,
-        TraitAdminModelDeletable,
-        TraitAdminModelReadOnly
-        ;
+    use TraitAdminModelDeletable;
+    use TraitAdminModelList;
+    use TraitAdminModelPublishable;
+    use TraitAdminModelReadOnly;
+    use TraitAdminModelSave;
 
     private readonly SubmissionRepository $submissionRepository;
 
@@ -40,7 +42,7 @@ class AdminsubmissionController extends AbstractControllerAdmin implements
     {
         parent::onConstruct();
 
-        $this->submissionRepository = $this->eventsManager->fire(SubmissionEnum::GET_REPOSITORY->value, new \stdClass());
+        $this->submissionRepository = $this->eventsManager->fire(SubmissionEnum::GET_REPOSITORY->value, new stdClass());
     }
 
     public function getModel(string $id): ?AbstractCollection
@@ -51,7 +53,7 @@ class AdminsubmissionController extends AbstractControllerAdmin implements
         };
     }
 
-    public function getModelList( ?FindValueIterator $findValueIterator): \ArrayIterator
+    public function getModelList(?FindValueIterator $findValueIterator): ArrayIterator
     {
         return $this->submissionRepository->findAll(
             $findValueIterator,

@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Controllers;
 
@@ -22,7 +23,7 @@ use VitesseCms\Form\Helpers\SubmissionHelper;
 use VitesseCms\Form\Interfaces\RepositoriesInterface;
 use VitesseCms\Form\Models\Submission;
 use VitesseCms\Form\Utils\FormUtil;
-use \stdClass;
+use stdClass;
 use VitesseCms\Language\Enums\LanguageEnum;
 use VitesseCms\Language\Repositories\LanguageRepository;
 
@@ -36,7 +37,10 @@ class IndexController extends AbstractControllerFrontend
     {
         parent::onConstruct();
 
-        $this->blockFormBuilderRepository = $this->eventsManager->fire(BlockFormBuilderEnum::LISTENER_GET_REPOSITORY->value, new stdClass());
+        $this->blockFormBuilderRepository = $this->eventsManager->fire(
+            BlockFormBuilderEnum::LISTENER_GET_REPOSITORY->value,
+            new stdClass()
+        );
         $this->languageRepository = $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new stdClass());
         $this->datagroupRepository = $this->eventsManager->fire(DatagroupEnum::GET_REPOSITORY->value, new stdClass());
     }
@@ -55,7 +59,9 @@ class IndexController extends AbstractControllerFrontend
                     $languages = $this->languageRepository->findAll(null, false);
                     while ($languages->valid()):
                         $language = $languages->current();
-                        $post['name'][$language->getShortCode()] = date('Y-m-d H:i:s') . ' : ' . $blockFormBuilder->getNameField();
+                        $post['name'][$language->getShortCode()] = date(
+                                'Y-m-d H:i:s'
+                            ) . ' : ' . $blockFormBuilder->getNameField();
                         $languages->next();
                     endwhile;
 
@@ -81,10 +87,15 @@ class IndexController extends AbstractControllerFrontend
                                 $this->viewService->set('systemEmailToAddress', $submission->getEmail());
                             endif;
                             $this->viewService->set('formData', SubmissionHelper::getHtmlTable($submission));
-                            $this->viewService->set('formAdminData', SubmissionHelper::getHtmlAdminTable($submission, true));
+                            $this->viewService->set(
+                                'formAdminData',
+                                SubmissionHelper::getHtmlAdminTable($submission, true)
+                            );
                             $this->session->set('blockSubmittedId', $this->request->getPost('block'));
 
-                            if ($blockFormBuilder->hasSystemThankyouByShortCode($this->configuration->getLanguageShort())) :
+                            if ($blockFormBuilder->hasSystemThankyouByShortCode(
+                                $this->configuration->getLanguageShort()
+                            )) :
                                 $this->flashService->setSucces($blockFormBuilder->getSystemThankyou());
                             else :
                                 $this->flashService->setSucces('');
@@ -128,7 +139,8 @@ class IndexController extends AbstractControllerFrontend
                             $submission->addFieldname($key);
                         endif;
                     else :
-                        $this->flashService->setError(TranslationEnum::FORM_FILE_UPLOAD_FAILED->name, [$file->getName()]);
+                        $this->flashService->setError(TranslationEnum::FORM_FILE_UPLOAD_FAILED->name, [$file->getName()]
+                        );
                     endif;
                 endif;
             endforeach;

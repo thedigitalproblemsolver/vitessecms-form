@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form;
 
@@ -13,7 +15,7 @@ abstract class AbstractFormWithRepository extends AbstractForm implements FormWi
 {
     protected BaseRepositoriesInterface $repositories;
 
-    abstract function buildForm(): FormWithRepositoryInterface;
+    abstract public function buildForm(): FormWithRepositoryInterface;
 
     public function setRepositories(BaseRepositoriesInterface $baseRepositories): FormWithRepositoryInterface
     {
