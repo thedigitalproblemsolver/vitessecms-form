@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Listeners\Blocks;
 
@@ -61,22 +62,31 @@ class  BlockFormBuilderListener
             'datagroup',
             (new Attributes())
                 ->setRequired(true)
-                ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $this->datagroupRepository->findAll(new FindValueIterator(
-                        [new FindValue('component', 'form')]
-                    ))
-                ))
-            //TODO seperate this field to own module
+                ->setOptions(
+                    ElementHelper::modelIteratorToOptions(
+                        $this->datagroupRepository->findAll(
+                            new FindValueIterator(
+                                [new FindValue('component', 'form')]
+                            )
+                        )
+                    )
+                )
+        //TODO seperate this field to own module
         )->addDropdown(
             'Add to newsletter',
             'newsletters',
             (new Attributes())
                 ->setMultilang(true)
                 ->setMultiple(true)
-                ->setOptions(ElementHelper::modelIteratorToOptions(
-                    $this->newsletterRepository->findAll(new FindValueIterator(
-                        [new FindValue('parentId', null)]
-                    ))))
+                ->setOptions(
+                    ElementHelper::modelIteratorToOptions(
+                        $this->newsletterRepository->findAll(
+                            new FindValueIterator(
+                                [new FindValue('parentId', null)]
+                            )
+                        )
+                    )
+                )
                 ->setInputClass('select2')
         )->addText(
             '%ADMIN_FORM_SUBMIT_BUTTON_TEXT%',
@@ -88,7 +98,7 @@ class  BlockFormBuilderListener
     public function loadAssets(Event $event, FormBuilder $formBuilder, Block $block): void
     {
         if ($block->getBool(('useRecaptcha'))) :
-            $block->getDi()->assets->loadRecaptcha();
+            $block->getDi()->get('assets')->loadRecaptcha();
         endif;
     }
 }
