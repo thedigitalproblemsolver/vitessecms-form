@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Repositories;
 
@@ -28,8 +30,7 @@ class SubmissionRepository
         bool $hideUnpublished = true,
         ?int $limit = null,
         ?FindOrderIterator $findOrders = null
-    ): SubmissionIterator
-    {
+    ): SubmissionIterator {
         Submission::setFindPublished($hideUnpublished);
         if ($limit !== null) :
             Submission::setFindLimit($limit);
