@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form;
 
@@ -199,7 +201,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $name,
             (new Attributes())
                 ->setMultiple(true)
-                ->setOptions(ElementHelper::arrayToSelectOptions(PermissionRole::findAll())
+                ->setOptions(
+                    ElementHelper::arrayToSelectOptions(PermissionRole::findAll())
                 )
         );
 
@@ -275,10 +278,9 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function renderForm(
         string $action,
         string $formName = null,
-        bool   $noAjax = false,
-        bool   $newWindow = false
-    ): string
-    {
+        bool $noAjax = false,
+        bool $newWindow = false
+    ): string {
         $extra = [];
         $request = new Request();
 
@@ -354,7 +356,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                         $element->getName() === 'agreedTerms'
                         && $this->setting->has('SHOP_PAGE_AGREEDTERMS')
                     ) :
-                        $element->setLabel('<a 
+                        $element->setLabel(
+                            '<a 
                             href="page:' . $this->setting->get('SHOP_PAGE_AGREEDTERMS') . '"
                             class="openmodal"
                              >' . $element->getLabel() . '<a/>'
