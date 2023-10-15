@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Helpers;
 
@@ -50,7 +51,7 @@ class ElementHelper
             $fieldName = str_replace('[]', '', $element->getName());
             if ($request->getPost('items')) :
                 $element->setDefault($request->getPost('items'));
-            elseif (is_object(self::$form->getEntity())) :
+            elseif (self::$form !== null && is_object(self::$form->getEntity())) :
                 $element->setDefault(self::$form->getEntity()->_($fieldName));
             endif;
         endif;
@@ -66,9 +67,8 @@ class ElementHelper
     public static function arrayToSelectOptions(
         array $array,
         array $selected = [],
-        bool  $nameWithParents = false
-    ): array
-    {
+        bool $nameWithParents = false
+    ): array {
         $selectedCheck = ObjectFactory::create();
         foreach ($selected as $value) :
             if (is_array($value)) :
@@ -80,11 +80,13 @@ class ElementHelper
             endif;
         endforeach;
 
-        $options = [[
-            'value' => '',
-            'label' => '%FORM_CHOOSE_AN_OPTION%',
-            'selected' => false,
-        ]];
+        $options = [
+            [
+                'value' => '',
+                'label' => '%FORM_CHOOSE_AN_OPTION%',
+                'selected' => false,
+            ]
+        ];
         if (
             count($array) > 0
             && isset($array[0])
@@ -123,12 +125,14 @@ class ElementHelper
 
     public static function enumToSelectOptions(array $unitEnum): array
     {
-        $options = [[
-            'value' => '',
-            'label' => '%FORM_CHOOSE_AN_OPTION%',
-            'selected' => false,
-        ]];
-        
+        $options = [
+            [
+                'value' => '',
+                'label' => '%FORM_CHOOSE_AN_OPTION%',
+                'selected' => false,
+            ]
+        ];
+
         /**
          * @var int $key
          * @var SelectOptionEnumInterface $enum
@@ -145,11 +149,13 @@ class ElementHelper
 
     public static function modelIteratorToOptions(ArrayIterator $iterator): array
     {
-        $options = [[
-            'value' => '',
-            'label' => '%FORM_CHOOSE_AN_OPTION%',
-            'selected' => false,
-        ]];
+        $options = [
+            [
+                'value' => '',
+                'label' => '%FORM_CHOOSE_AN_OPTION%',
+                'selected' => false,
+            ]
+        ];
 
         $iterator->rewind();
         while ($iterator->valid()) :

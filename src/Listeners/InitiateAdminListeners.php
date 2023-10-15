@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Listeners;
 
@@ -13,7 +15,9 @@ use VitesseCms\Form\Listeners\Admin\AdminMenuListener;
 use VitesseCms\Form\Listeners\Blocks\BlockFormBuilderListener;
 use VitesseCms\Form\Listeners\Controllers\AdminsubmissionControllerListener;
 use VitesseCms\Form\Listeners\Models\SubmissionListener;
+use VitesseCms\Form\Listeners\Models\UserListener;
 use VitesseCms\Form\Repositories\SubmissionRepository;
+use VitesseCms\User\Models\User;
 
 class InitiateAdminListeners implements InitiateListenersInterface
 {
@@ -21,10 +25,20 @@ class InitiateAdminListeners implements InitiateListenersInterface
     {
         $di->eventsManager->attach('adminMenu', new AdminMenuListener());
         $di->eventsManager->attach(AdminsubmissionController::class, new AdminsubmissionControllerListener());
-        $di->eventsManager->attach( FormBuilder::class, new BlockFormBuilderListener(
-            new DatagroupRepository(),
-            new NewsletterRepository()
-        ));
+        $di->eventsManager->attach(
+            FormBuilder::class,
+            new BlockFormBuilderListener(
+                new DatagroupRepository(),
+                new NewsletterRepository()
+            )
+        );
         $di->eventsManager->attach(SubmissionEnum::LISTENER->value, new SubmissionListener(new SubmissionRepository()));
+        $di->eventsManager->attach(
+            User::class,
+            new UserListener(
+                $di->log,
+                new SubmissionRepository()
+            )
+        );
     }
 }
