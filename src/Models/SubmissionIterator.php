@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Models;
 
-class SubmissionIterator extends \ArrayIterator
+use ArrayIterator;
+
+class SubmissionIterator extends ArrayIterator
 {
     public function __construct(array $submissions)
     {
