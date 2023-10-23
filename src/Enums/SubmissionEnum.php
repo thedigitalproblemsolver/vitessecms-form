@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Enums;
 
-enum SubmissionEnum:string
+enum SubmissionEnum: string
 {
-    case LISTENER = 'ExportTypeListener';
-    case GET_REPOSITORY = 'ExportTypeListener:getRepository';
+    case LISTENER = 'SubmissionListener';
+    case GET_REPOSITORY = 'SubmissionListener:getRepository';
 }
