@@ -22,8 +22,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 {
     protected array $labelCol;
     protected array $inputCol;
-    protected string $ajaxFunction;
-    protected string $formClass;
+    protected ?string $ajaxFunction;
+    protected ?string $formClass;
     protected string $formTemplate;
     protected bool $labelAsPlaceholder;
     protected ElementUiHelper $elementUiHelper;
@@ -39,6 +39,8 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->elementUiHelper = new ElementUiHelper(
             $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new stdClass())
         );
+        $this->ajaxFunction = null;
+        $this->formClass = null;
     }
 
     public function addSubmitButton(string $label, ?Attributes $attributes = null): AbstractFormInterface
