@@ -10,49 +10,23 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Form;
 use Phalcon\Http\Request;
+use stdClass;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Helpers\ElementUiHelper;
 use VitesseCms\Form\Interfaces\AbstractFormInterface;
 use VitesseCms\Form\Models\Attributes;
-use VitesseCms\Language\Repositories\LanguageRepository;
+use VitesseCms\Language\Enums\LanguageEnum;
 use VitesseCms\User\Models\PermissionRole;
 
 abstract class AbstractForm extends Form implements AbstractFormInterface
 {
-    /**
-     * @var array
-     */
-    protected $labelCol;
-
-    /**
-     * @var array
-     */
-    protected $inputCol;
-
-    /**
-     * @var string
-     */
-    protected $ajaxFunction;
-
-    /**
-     * @var string
-     */
-    protected $formClass;
-
-    /**
-     * @var string
-     */
-    protected $formTemplate;
-
-    /**
-     * @var bool
-     */
-    protected $labelAsPlaceholder;
-
-    /**
-     * @var ElementUiHelper
-     */
-    protected $elementUiHelper;
+    protected array $labelCol;
+    protected array $inputCol;
+    protected ?string $ajaxFunction;
+    protected ?string $formClass;
+    protected string $formTemplate;
+    protected bool $labelAsPlaceholder;
+    protected ElementUiHelper $elementUiHelper;
 
     public function __construct($entity = null, array $userOptions = [])
     {
@@ -62,7 +36,11 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->inputCol = ['xs' => 12, 'sm' => 12, 'md' => 8, 'lg' => 9, 'xl' => 9];
         $this->formTemplate = 'form';
         $this->labelAsPlaceholder = false;
-        $this->elementUiHelper = new ElementUiHelper(new LanguageRepository());
+        $this->elementUiHelper = new ElementUiHelper(
+            $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new stdClass())
+        );
+        $this->ajaxFunction = null;
+        $this->formClass = null;
     }
 
     public function addSubmitButton(string $label, ?Attributes $attributes = null): AbstractFormInterface
