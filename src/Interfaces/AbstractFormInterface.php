@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Form\Interfaces;
 
+use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Media\Services\AssetsService;
@@ -9,6 +11,7 @@ use VitesseCms\Media\Services\AssetsService;
 /**
  * @property ViewService $view
  * @property AssetsService $assets
+ * @property ConfigService $configuration
  */
 interface AbstractFormInterface
 {
@@ -54,7 +57,12 @@ interface AbstractFormInterface
 
     public function addTime(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface;
 
-    public function renderForm(string $action, string $formName = null, bool $noAjax = false, bool $newWindow = false): string;
+    public function renderForm(
+        string $action,
+        string $formName = null,
+        bool $noAjax = false,
+        bool $newWindow = false
+    ): string;
 
     public function getCsrf(): string;
 
