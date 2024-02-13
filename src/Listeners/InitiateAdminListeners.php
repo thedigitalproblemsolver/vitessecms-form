@@ -21,22 +21,25 @@ use VitesseCms\User\Models\User;
 
 class InitiateAdminListeners implements InitiateListenersInterface
 {
-    public static function setListeners(InjectableInterface $di): void
+    public static function setListeners(InjectableInterface $injectable): void
     {
-        $di->eventsManager->attach('adminMenu', new AdminMenuListener());
-        $di->eventsManager->attach(AdminsubmissionController::class, new AdminsubmissionControllerListener());
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach('adminMenu', new AdminMenuListener());
+        $injectable->eventsManager->attach(AdminsubmissionController::class, new AdminsubmissionControllerListener());
+        $injectable->eventsManager->attach(
             FormBuilder::class,
             new BlockFormBuilderListener(
                 new DatagroupRepository(),
                 new NewsletterRepository()
             )
         );
-        $di->eventsManager->attach(SubmissionEnum::LISTENER->value, new SubmissionListener(new SubmissionRepository()));
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
+            SubmissionEnum::LISTENER->value,
+            new SubmissionListener(new SubmissionRepository())
+        );
+        $injectable->eventsManager->attach(
             User::class,
             new UserListener(
-                $di->log,
+                $injectable->log,
                 new SubmissionRepository()
             )
         );
