@@ -10,7 +10,7 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Form;
 use Phalcon\Http\Request;
-use stdClass;
+use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Helpers\ElementUiHelper;
 use VitesseCms\Form\Interfaces\AbstractFormInterface;
@@ -20,7 +20,9 @@ use VitesseCms\User\Models\PermissionRole;
 
 abstract class AbstractForm extends Form implements AbstractFormInterface
 {
+    /** @var array<string,int> */
     protected array $labelCol;
+    /** @var array<string,int> */
     protected array $inputCol;
     protected ?string $ajaxFunction;
     protected ?string $formClass;
@@ -28,6 +30,10 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     protected bool $labelAsPlaceholder;
     protected ElementUiHelper $elementUiHelper;
 
+    /**
+     * @param AbstractCollection   $entity
+     * @param array<string,string> $userOptions
+     */
     public function __construct($entity = null, array $userOptions = [])
     {
         parent::__construct($entity, $userOptions);
@@ -37,19 +43,19 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $this->formTemplate = 'form';
         $this->labelAsPlaceholder = false;
         $this->elementUiHelper = new ElementUiHelper(
-            $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new stdClass())
+            $this->eventsManager->fire(LanguageEnum::GET_REPOSITORY->value, new \stdClass())
         );
         $this->ajaxFunction = null;
         $this->formClass = null;
     }
 
-    public function addSubmitButton(string $label, ?Attributes $attributes = null): AbstractFormInterface
+    public function addSubmitButton(string $label, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
 
-        $this->add($this->form->elementFactory->submitButton($label, (array)$attributes));
+        $this->add($this->form->elementFactory->submitButton($label, (array) $attributes));
 
         return $this;
     }
@@ -68,98 +74,98 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         return $this;
     }
 
-    public function addToggle(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addToggle(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setTemplate('checkbox_toggle');
 
         $this->assets->loadBootstrapToggle();
-        $this->add($this->form->elementFactory->checkbox($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->checkbox($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addNumber(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addNumber(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setInputType('number');
 
-        $this->add($this->form->elementFactory->number($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->number($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addPhone(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addPhone(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setInputType('tel');
 
-        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addText(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addText(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addColorPicker(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addColorPicker(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setInputClass('colorpicker');
         $this->assets->loadBootstrapColorPicker();
 
-        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addUrl(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addUrl(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->url($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->url($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addEditor(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addEditor(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setInputClass('editor');
-        $this->add($this->form->elementFactory->textarea($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->textarea($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addTextarea(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addTextarea(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->textarea($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->textarea($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addEmail(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addEmail(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->email($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->email($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addPassword(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addPassword(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->password($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->password($label, $name, (array) $attributes));
 
         return $this;
     }
@@ -189,66 +195,66 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function addDropdown(string $label, string $name, Attributes $attributes): AbstractFormInterface
     {
-        if ($attributes->getInputClass() === 'select2') :
+        if ('select2' === $attributes->getInputClass()) {
             $this->assets->loadSelect2();
-        endif;
+        }
         $this->add($this->form->elementFactory->dropdown($label, $name, $attributes));
 
         return $this;
     }
 
-    public function addHidden(string $name, null|string|array $value = null): AbstractFormInterface
+    public function addHidden(string $name, string|array $value = null): AbstractFormInterface
     {
         $attributes = (new Attributes())->setDefaultValue($value);
-        $this->add($this->form->elementFactory->hidden($name, (array)$attributes));
+        $this->add($this->form->elementFactory->hidden($name, (array) $attributes));
 
         return $this;
     }
 
-    public function addFilemanager(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addFilemanager(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setTemplate('filemanager')->setFilemanager(true);
 
-        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->file($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addFile(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addFile(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->file($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addUpload(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addUpload(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
 
-        $this->add($this->form->elementFactory->file($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->file($label, $name, (array) $attributes));
 
         return $this;
     }
 
-    public function addDate(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addDate(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
         $this->add($this->form->elementFactory->date($label, $name, $attributes));
 
         return $this;
     }
 
-    public function addTime(string $label, string $name, ?Attributes $attributes = null): AbstractFormInterface
+    public function addTime(string $label, string $name, Attributes $attributes = null): AbstractFormInterface
     {
-        if ($attributes === null) :
+        if (null === $attributes) {
             $attributes = new Attributes();
-        endif;
+        }
         $attributes->setInputType('time');
-        $this->add($this->form->elementFactory->text($label, $name, (array)$attributes));
+        $this->add($this->form->elementFactory->text($label, $name, (array) $attributes));
 
         return $this;
     }
@@ -262,85 +268,85 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
         $extra = [];
         $request = new Request();
 
-        if ($request->get('embedded') == 1) :
+        if (1 == $request->get('embedded')) {
             $action .= '?embedded=1';
-        endif;
+        }
 
-        if (substr_count($action, 'http') === 0) :
-            $action = $this->url->getBaseUri() . $action;
-        endif;
+        if (0 === substr_count($action, 'http')) {
+            $action = $this->url->getBaseUri().$action;
+        }
 
         $this->addCsrf();
 
-        if ($this->ajaxFunction !== null) :
-            $extra[] = 'data-ajaxFunction="' . $this->ajaxFunction . '"';
-        endif;
+        if (null !== $this->ajaxFunction) {
+            $extra[] = 'data-ajaxFunction="'.$this->ajaxFunction.'"';
+        }
 
-        if ($formName) :
-            $extra[] = 'name="' . $formName . '"';
-        endif;
+        if ($formName) {
+            $extra[] = 'name="'.$formName.'"';
+        }
 
-        if ($newWindow) :
+        if ($newWindow) {
             $extra[] = 'target="_blank"';
-        endif;
+        }
 
-        if ($noAjax) :
+        if ($noAjax) {
             $extra[] = 'data-ajax="false"';
-        endif;
+        }
 
-        if (substr_count(strtolower($this->formTemplate), 'horizontal')) :
+        if (substr_count(strtolower($this->formTemplate), 'horizontal')) {
             $this->formClass .= ' form-inline';
-        endif;
+        }
 
-        if ($this->formClass) :
-            $extra[] = 'class="' . $this->formClass . '"';
-        endif;
+        if ($this->formClass) {
+            $extra[] = 'class="'.$this->formClass.'"';
+        }
 
         $formElements = [];
-        foreach ($this->getElements() as $element) :
+        foreach ($this->getElements() as $element) {
             if (
-                $this->view->getVar('formRequiredText') === ''
-                && $element->getAttribute('required') === 'required'
-            ) :
+                '' === $this->view->getVar('formRequiredText')
+                && 'required' === $element->getAttribute('required')
+            ) {
                 $this->view->set('formRequiredText', $this->view->getVar('REQUIRED_FIELDS'));
-            endif;
+            }
 
             $formElement = [];
             $formElement['attributes'] = $element->getAttributes();
             $formElement['element'] = $element;
 
-            //TODO render element naar mustache?
-            //TODO verder refactoren
-            switch (get_class($element)):
-                case Submit::class;
+            // TODO render element naar mustache?
+            // TODO verder refactoren
+            switch (get_class($element)) {
+                case Submit::class:
                     $formElement['inputColumns'] = $this->getColumns(
-                            'label',
-                            'offset'
-                        ) . ' ' . $this->getColumns('input');
+                        'label',
+                        'offset'
+                    ).' '.$this->getColumns('input');
                     $formElement['input'] = $this->elementUiHelper->renderElement($element, $this);
                     break;
                 case Hidden::class :
                     $formElement['input'] = $this->elementUiHelper->renderElement($element, $this);
-                    if (substr_count($element->getLabel() ?? '', 'html_') > 0) :
+                    if (substr_count($element->getLabel() ?? '', 'html_') > 0) {
                         $formElement['inputColumns'] = 'col-12';
                         $formElement['input'] = $element->getValue();
-                    endif;
-                    if (substr_count($element->getLabel() ?? '', 'htmlraw_') > 0) :
+                    }
+                    if (substr_count($element->getLabel() ?? '', 'htmlraw_') > 0) {
                         $formElement['input'] = $element->getValue();
-                    endif;
+                    }
                     break;
                 case Check::class:
                     if (
-                        $element->getName() === 'agreedTerms'
+                        'agreedTerms' === $element->getName()
                         && $this->setting->has('SHOP_PAGE_AGREEDTERMS')
-                    ) :
+                    ) {
                         $element->setLabel(
                             '<a 
-                            href="page:' . $this->setting->get('SHOP_PAGE_AGREEDTERMS') . '"
+                            href="page:'.$this->setting->get('SHOP_PAGE_AGREEDTERMS').'"
                             class="openmodal"
-                             >' . $element->getLabel() . '<a/>'
+                             >'.$element->getLabel().'<a/>'
                         );
-                    endif;
+                    }
 
                     $formElement['labelColumns'] = $this->getColumns('label');
                     $formElement['label'] = $element->getLabel();
@@ -349,7 +355,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                     break;
                 case Select::class :
                     $options = $element->getAttribute('options');
-                    foreach ($options as $key => $option) :
+                    foreach ($options as $key => $option) {
                         if (
                             (
                                 is_string($element->getValue())
@@ -367,10 +373,10 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                                 is_array($element->getDefault())
                                 && in_array($option['value'], $element->getDefault())
                             )
-                        ) :
+                        ) {
                             $options[$key]['selected'] = true;
-                        endif;
-                    endforeach;
+                        }
+                    }
                     $element->setAttribute('options', $options);
 
                     $formElement['labelColumns'] = $this->getColumns('label');
@@ -384,14 +390,14 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
                     $formElement['inputColumns'] = $this->getColumns('input');
                     $formElement['input'] = $this->elementUiHelper->renderElement($element, $this);
                     break;
-            endswitch;
+            }
             unset($formElement['element']);
             $formElements[] = $formElement;
-        endforeach;
+        }
 
         $form = $this->view->renderTemplate(
             $this->formTemplate,
-            $this->configuration->getCoreTemplateDir() . 'views/partials/form/',
+            $this->configuration->getCoreTemplateDir().'views/partials/form/',
             [
                 'formElements' => $formElements,
                 'formId' => uniqid('form_', false),
@@ -415,19 +421,19 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function getColumns(string $type, $columnType = 'col'): string
     {
         $cols = [];
-        switch ($type) :
-            case 'label' :
+        switch ($type) {
+            case 'label':
                 $cols = $this->labelCol;
                 break;
-            case 'input' :
+            case 'input':
                 $cols = $this->inputCol;
                 break;
-        endswitch;
+        }
 
         $colClasses = [];
-        foreach ($cols as $screen => $size) :
-            $colClasses[] = $columnType . '-' . $screen . '-' . $size;
-        endforeach;
+        foreach ($cols as $screen => $size) {
+            $colClasses[] = $columnType.'-'.$screen.'-'.$size;
+        }
 
         return str_replace(
             ['offset-12', 'offset-sm-12', 'offset-md-12', 'offset-lg-12', 'offset-xl-12'],
@@ -451,13 +457,13 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
     public function bind(array $data, $entity = null, array $whitelist = []): Form
     {
         parent::bind($data, $entity, $whitelist);
-        if ($this->entity !== null) {
+        if (null !== $this->entity) {
             $parsed = [];
             foreach ($this->getElements() as $key => $value) {
                 if (
-                    substr_count($key, '[') > 0 &&
-                    substr_count($key, ']') > 0 &&
-                    !in_array($key, $parsed)
+                    substr_count($key, '[') > 0
+                    && substr_count($key, ']') > 0
+                    && !in_array($key, $parsed)
                 ) {
                     $field = explode('[', $key)[0];
                     if (!isset($model->$field)) {
@@ -482,7 +488,7 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
             $messages = $this->getMessages();
 
             foreach ($messages as $message) {
-                $this->flash->setError((string)$message);
+                $this->flash->setError((string) $message);
             }
 
             return false;
@@ -493,25 +499,25 @@ abstract class AbstractForm extends Form implements AbstractFormInterface
 
     public function isValid($data = null, $entity = null, array $whitelist = []): bool
     {
-        if ($this->request->hasFiles() === true) :
+        if (true === $this->request->hasFiles()) {
             $data = array_merge($data, $_FILES);
-        endif;
+        }
 
         return parent::isValid($data, $entity);
     }
 
     public function setColumn(int $column, string $type, array $screens): AbstractFormInterface
     {
-        foreach ($screens as $size => $name) :
-            switch ($type) :
-                case 'label' :
+        foreach ($screens as $size => $name) {
+            switch ($type) {
+                case 'label':
                     $this->labelCol[$size] = $column;
                     break;
-                case 'input' :
+                case 'input':
                     $this->inputCol[$size] = $column;
                     break;
-            endswitch;
-        endforeach;
+            }
+        }
 
         return $this;
     }
