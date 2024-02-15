@@ -9,12 +9,15 @@ use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Media\Services\AssetsService;
+use VitesseCms\User\Models\User;
 
 /**
- * @property ViewService   $view
- * @property AssetsService $assets
- * @property ConfigService $configuration
- * @property Manager       $eventsManager
+ * @property ViewService              $view
+ * @property AssetsService            $assets
+ * @property ConfigService            $configuration
+ * @property Manager                  $eventsManager
+ * @property User                     $user
+ * @property \Phalcon\Session\Manager $session
  */
 interface AbstractFormInterface
 {
